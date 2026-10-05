@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="380" viewBox="0 0 640 380" role="img">
+  <title>Graph vocabulary: nodes and edges in a security graph</title>
+  <desc>Four node circles labeled user, host, domain, and file hash, connected by directed edges labeled "logged into", "resolved to", and "downloaded". One node is annotated as high-degree because it has the most edges.</desc>
+  <rect x="0" y="0" width="640" height="380" fill="#f7f9fc"/>
+  <text x="24" y="34" font-family="sans-serif" font-size="18" font-weight="bold" fill="#1a2333">Security graph vocabulary</text>
+  <defs>
+    <marker id="sgv-arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#334155"/>
+    </marker>
+  </defs>
+  <line x1="130" y1="120" x2="300" y2="110" stroke="#334155" stroke-width="2" marker-end="url(#sgv-arrow)"/>
+  <text x="200" y="100" font-family="sans-serif" font-size="12" fill="#334155" text-anchor="middle">logged into</text>
+  <line x1="150" y1="180" x2="300" y2="250" stroke="#334155" stroke-width="2" marker-end="url(#sgv-arrow)"/>
+  <text x="185" y="240" font-family="sans-serif" font-size="12" fill="#334155" text-anchor="middle">downloaded</text>
+  <line x1="518" y1="206" x2="498" y2="203" stroke="#334155" stroke-width="2" marker-end="url(#sgv-arrow)"/>
+  <text x="505" y="192" font-family="sans-serif" font-size="12" fill="#334155" text-anchor="middle">resolved to</text>
+  <line x1="362" y1="232" x2="446" y2="206" stroke="#334155" stroke-width="2" marker-end="url(#sgv-arrow)"/>
+  <text x="404" y="222" font-family="sans-serif" font-size="12" fill="#334155" text-anchor="middle">sent to</text>
+  <circle cx="120" cy="150" r="38" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"/>
+  <text x="120" y="146" font-family="sans-serif" font-size="13" font-weight="bold" fill="#1e293b" text-anchor="middle">user</text>
+  <text x="120" y="163" font-family="sans-serif" font-size="11" fill="#475569" text-anchor="middle">j.doe</text>
+  <circle cx="330" cy="110" r="38" fill="#dcfce7" stroke="#15803d" stroke-width="2"/>
+  <text x="330" y="106" font-family="sans-serif" font-size="13" font-weight="bold" fill="#1e293b" text-anchor="middle">host</text>
+  <text x="330" y="123" font-family="sans-serif" font-size="11" fill="#475569" text-anchor="middle">ws-07</text>
+  <circle cx="330" cy="250" r="38" fill="#fef3c7" stroke="#b45309" stroke-width="2"/>
+  <text x="330" y="246" font-family="sans-serif" font-size="13" font-weight="bold" fill="#1e293b" text-anchor="middle">file</text>
+  <text x="330" y="263" font-family="sans-serif" font-size="11" fill="#475569" text-anchor="middle">invoice.exe</text>
+  <circle cx="560" cy="210" r="42" fill="#fee2e2" stroke="#b91c1c" stroke-width="3"/>
+  <text x="560" y="206" font-family="sans-serif" font-size="13" font-weight="bold" fill="#1e293b" text-anchor="middle">domain</text>
+  <text x="560" y="223" font-family="sans-serif" font-size="10" fill="#475569" text-anchor="middle">evil.example</text>
+  <circle cx="470" cy="200" r="26" fill="#e0e7ff" stroke="#4338ca" stroke-width="2"/>
+  <text x="470" y="197" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1e293b" text-anchor="middle">IP</text>
+  <text x="470" y="212" font-family="sans-serif" font-size="9" fill="#475569" text-anchor="middle">93.184.x.x</text>
+  <text x="560" y="290" font-family="sans-serif" font-size="12" fill="#b91c1c" text-anchor="middle">highest-degree node = priority</text>
+  <text x="24" y="350" font-family="sans-serif" font-size="13" fill="#475569">Nodes = things (users, hosts, files, domains, IPs). Edges = relationships between them.</text>
+</svg>

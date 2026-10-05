@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="360" viewBox="0 0 760 360" role="img">
+  <title>The cyber kill chain modeled as a graph</title>
+  <desc>Seven kill-chain stages drawn as connected graph nodes from left to right: reconnaissance, weaponization, delivery, exploitation, installation, command and control, and actions on objectives. Three observed events are annotated under the chain: a phishing email at delivery, a malware hash at installation, and an odd outbound connection at command and control, showing how alerts attach to stages as a subgraph.</desc>
+  <rect x="0" y="0" width="760" height="360" fill="#f7f9fc"/>
+  <text x="24" y="34" font-family="sans-serif" font-size="18" font-weight="bold" fill="#1a2333">Kill chain as a graph: stages are nodes, attacks are subgraphs</text>
+  <defs>
+    <marker id="skc-arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#0e7490"/>
+    </marker>
+  </defs>
+  <g font-family="sans-serif" text-anchor="middle">
+    <line x1="104" y1="150" x2="152" y2="150" stroke="#0e7490" stroke-width="2" marker-end="url(#skc-arrow)"/>
+    <line x1="212" y1="150" x2="260" y2="150" stroke="#0e7490" stroke-width="2" marker-end="url(#skc-arrow)"/>
+    <line x1="320" y1="150" x2="368" y2="150" stroke="#0e7490" stroke-width="2" marker-end="url(#skc-arrow)"/>
+    <line x1="428" y1="150" x2="476" y2="150" stroke="#0e7490" stroke-width="2" marker-end="url(#skc-arrow)"/>
+    <line x1="536" y1="150" x2="584" y2="150" stroke="#0e7490" stroke-width="2" marker-end="url(#skc-arrow)"/>
+    <line x1="644" y1="150" x2="692" y2="150" stroke="#0e7490" stroke-width="2" marker-end="url(#skc-arrow)"/>
+    <rect x="8" y="125" width="96" height="50" rx="25" fill="#cffafe" stroke="#0e7490" stroke-width="2"/>
+    <text x="56" y="148" font-size="11" font-weight="bold" fill="#155e75">Recon</text>
+    <text x="56" y="163" font-size="9" fill="#475569">scans, OSINT</text>
+    <rect x="116" y="125" width="96" height="50" rx="25" fill="#cffafe" stroke="#0e7490" stroke-width="2"/>
+    <text x="164" y="148" font-size="11" font-weight="bold" fill="#155e75">Weaponize</text>
+    <text x="164" y="163" font-size="9" fill="#475569">build payload</text>
+    <rect x="224" y="125" width="96" height="50" rx="25" fill="#fef3c7" stroke="#b45309" stroke-width="3"/>
+    <text x="272" y="148" font-size="11" font-weight="bold" fill="#92400e">Delivery</text>
+    <text x="272" y="163" font-size="9" fill="#475569">phishing email</text>
+    <rect x="332" y="125" width="96" height="50" rx="25" fill="#cffafe" stroke="#0e7490" stroke-width="2"/>
+    <text x="380" y="148" font-size="11" font-weight="bold" fill="#155e75">Exploit</text>
+    <text x="380" y="163" font-size="9" fill="#475569">run the code</text>
+    <rect x="440" y="125" width="96" height="50" rx="25" fill="#fef3c7" stroke="#b45309" stroke-width="3"/>
+    <text x="488" y="148" font-size="11" font-weight="bold" fill="#92400e">Install</text>
+    <text x="488" y="163" font-size="9" fill="#475569">malware hash</text>
+    <rect x="548" y="125" width="96" height="50" rx="25" fill="#fee2e2" stroke="#b91c1c" stroke-width="3"/>
+    <text x="596" y="148" font-size="11" font-weight="bold" fill="#991b1b">C2</text>
+    <text x="596" y="163" font-size="9" fill="#475569">odd outbound</text>
+    <rect x="656" y="125" width="96" height="50" rx="25" fill="#cffafe" stroke="#0e7490" stroke-width="2"/>
+    <text x="704" y="148" font-size="11" font-weight="bold" fill="#155e75">Actions</text>
+    <text x="704" y="163" font-size="9" fill="#475569">exfil / ransom</text>
+  </g>
+  <text x="272" y="215" font-family="sans-serif" font-size="11" fill="#b45309" text-anchor="middle">alert: phish link clicked</text>
+  <text x="488" y="215" font-family="sans-serif" font-size="11" fill="#b45309" text-anchor="middle">alert: known-bad hash</text>
+  <text x="596" y="215" font-family="sans-serif" font-size="11" fill="#b91c1c" text-anchor="middle">alert: beaconing</text>
+  <text x="24" y="280" font-family="sans-serif" font-size="13" fill="#475569">Three unrelated alerts attach to one chain: the graph reveals a single coordinated intrusion.</text>
+  <text x="24" y="305" font-family="sans-serif" font-size="13" fill="#475569">Break any edge early (block delivery, kill the install) and the campaign never reaches Actions.</text>
+  <text x="24" y="340" font-family="sans-serif" font-size="11" fill="#94a3b8">Kill-chain concept: Lockheed Martin. Graph framing: original to this lesson.</text>
+</svg>

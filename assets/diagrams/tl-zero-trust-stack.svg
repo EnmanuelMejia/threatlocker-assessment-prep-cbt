@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="500" viewBox="0 0 900 500" role="img">
+  <title>Zero Trust endpoint stack: the five controls plus supporting services</title>
+  <desc>A vertical stack of five layers — Allowlisting (foundation), Ringfencing, Elevation Control, Storage Control, Network Control — with side boxes for Web Control, Testing Environment, Unified Audit, and the Cyber Hero MDR team wrapping the stack.</desc>
+  <style>
+    .h { font: 700 20px sans-serif; fill: #1a1a1a; }
+    .sub { font: 600 14px sans-serif; fill: #555; }
+    .t { font: 14px sans-serif; fill: #1a1a1a; }
+    .small { font: 12px sans-serif; fill: #3d3d3d; }
+    .layer { stroke: #1a1a1a; stroke-width: 2; }
+    .side { fill: #f2f6f4; stroke: #7a8a83; stroke-width: 1.5; }
+    .mdr { fill: none; stroke: #0b7a4b; stroke-width: 3; stroke-dasharray: 10 7; }
+  </style>
+
+  <text class="h" x="40" y="42">The Zero Trust endpoint stack</text>
+  <text class="sub" x="40" y="66">Every layer denies by default — each answers a narrower question</text>
+
+  <rect class="mdr" x="18" y="90" width="560" height="372" rx="16"/>
+
+  <rect class="layer" x="40" y="380" width="516" height="58" rx="8" fill="#dcefe6"/>
+  <text class="t" x="60" y="405" font-weight="700">1 · Allowlisting</text>
+  <text class="small" x="60" y="426">May it run? Only explicitly trusted code executes.</text>
+
+  <rect class="layer" x="40" y="314" width="516" height="58" rx="8" fill="#e6f2ec"/>
+  <text class="t" x="60" y="339" font-weight="700">2 · Ringfencing</text>
+  <text class="small" x="60" y="360">What may it do? App-to-app, file, registry, network leashes.</text>
+
+  <rect class="layer" x="40" y="248" width="516" height="58" rx="8" fill="#eef6f1"/>
+  <text class="t" x="60" y="273" font-weight="700">3 · Elevation Control</text>
+  <text class="small" x="60" y="294">With whose rights? Just-in-time, per-app, time-boxed admin.</text>
+
+  <rect class="layer" x="40" y="182" width="516" height="58" rx="8" fill="#f4faf7"/>
+  <text class="t" x="60" y="207" font-weight="700">4 · Storage Control</text>
+  <text class="small" x="60" y="228">Which devices? USB by serial, user, file type, encryption.</text>
+
+  <rect class="layer" x="40" y="116" width="516" height="58" rx="8" fill="#fafdfb"/>
+  <text class="t" x="60" y="141" font-weight="700">5 · Network Control</text>
+  <text class="small" x="60" y="162">Where may it talk? Host firewall; egress allowlisting; ZTNA.</text>
+
+  <rect class="side" x="610" y="116" width="250" height="70" rx="8"/>
+  <text class="t" x="626" y="142" font-weight="700">Web Control</text>
+  <text class="small" x="626" y="162">Agent DNS/URL filtering,</text>
+  <text class="small" x="626" y="178">works off-network</text>
+
+  <rect class="side" x="610" y="198" width="250" height="70" rx="8"/>
+  <text class="t" x="626" y="224" font-weight="700">Testing Environment</text>
+  <text class="small" x="626" y="244">One-button VDI sandbox for</text>
+  <text class="small" x="626" y="260">unknown software</text>
+
+  <rect class="side" x="610" y="280" width="250" height="70" rx="8"/>
+  <text class="t" x="626" y="306" font-weight="700">Unified Audit</text>
+  <text class="small" x="626" y="326">Every allow/deny, and why —</text>
+  <text class="small" x="626" y="342">the evidence layer</text>
+
+  <rect class="side" x="610" y="362" width="250" height="70" rx="8"/>
+  <text class="t" x="626" y="388" font-weight="700">Cyber Hero MDR</text>
+  <text class="small" x="626" y="408">24/7/365 US-based team,</text>
+  <text class="small" x="626" y="424">~60-second response</text>
+
+  <text class="small" x="40" y="486">Dashed boundary: the MDR team watches the whole stack. Approval Center (not shown) is where users request and admins decide.</text>
+</svg>

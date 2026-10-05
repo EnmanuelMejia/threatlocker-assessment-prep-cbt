@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="340" viewBox="0 0 900 340" role="img" aria-label="NIST AI RMF mapped to the security ML lifecycle">
+<rect width="900" height="340" fill="#0f172a"/>
+<text x="450" y="34" text-anchor="middle" fill="#f1f5f9" font-size="20" font-family="sans-serif" font-weight="bold">NIST AI RMF x Security ML Lifecycle</text>
+<g font-family="sans-serif" font-size="13" text-anchor="middle">
+<rect x="30" y="80" width="195" height="90" rx="10" fill="#1e293b" stroke="#fbbf24" stroke-width="2"/>
+<text x="127" y="106" fill="#fbbf24" font-weight="bold">GOVERN</text>
+<text x="127" y="128" fill="#cbd5e1">accountability, culture,</text><text x="127" y="146" fill="#cbd5e1">ownership per model</text><text x="127" y="164" fill="#94a3b8">wraps everything</text>
+<rect x="255" y="80" width="195" height="90" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+<text x="352" y="106" fill="#38bdf8" font-weight="bold">MAP</text>
+<text x="352" y="128" fill="#cbd5e1">context, risks,</text><text x="352" y="146" fill="#cbd5e1">error costs</text><text x="352" y="164" fill="#94a3b8">at scoping</text>
+<rect x="480" y="80" width="195" height="90" rx="10" fill="#1e293b" stroke="#22c55e" stroke-width="2"/>
+<text x="577" y="106" fill="#22c55e" font-weight="bold">MEASURE</text>
+<text x="577" y="128" fill="#cbd5e1">test, red-team,</text><text x="577" y="146" fill="#cbd5e1">monitor drift</text><text x="577" y="164" fill="#94a3b8">validation + prod</text>
+<rect x="705" y="80" width="165" height="90" rx="10" fill="#1e293b" stroke="#f97316" stroke-width="2"/>
+<text x="787" y="106" fill="#f97316" font-weight="bold">MANAGE</text>
+<text x="787" y="128" fill="#cbd5e1">respond, rollback,</text><text x="787" y="146" fill="#cbd5e1">retire</text><text x="787" y="164" fill="#94a3b8">when risk spikes</text>
+</g>
+<g font-family="sans-serif" font-size="12" text-anchor="middle">
+<rect x="30" y="210" width="840" height="60" rx="10" fill="#0b1220" stroke="#475569" stroke-width="1"/>
+<text x="450" y="234" fill="#94a3b8">ML lifecycle: scope -- data -- train -- validate -- deploy -- monitor -- retrain</text>
+<text x="450" y="254" fill="#64748b">Map at scope, Measure at validation and monitoring, Manage on drift alarms, Govern over all of it</text>
+</g>
+<text x="450" y="310" text-anchor="middle" fill="#94a3b8" font-size="13" font-family="sans-serif">A risk lifecycle for the ML lifecycle: four functions, one operating rhythm.</text>
+</svg>

@@ -1,0 +1,1246 @@
+{
+  "domains": [
+    {
+      "id": "tl-interview",
+      "name": "ThreatLocker Interview Prep",
+      "summary": "Company knowledge and interview judgment for a Zero Trust endpoint security interview: the deny-by-default philosophy, the product stack, the Cyber Hero service culture, and how to answer the questions interviewers actually ask. Independent prep — no affiliation claimed.",
+      "key_points": [
+        "Founded 2017 in Orlando, Florida — Zero Trust endpoint protection on a deny-by-default model",
+        "The stack: Allowlisting, Ringfencing, Storage Control, Elevation Control, Network Control, Web Control",
+        "Cyber Hero MDR: 24/7/365 US-based team with ~60-second average response",
+        "Interviewers test motivation, customer-service judgment, homelab depth, and evidence-first thinking",
+        "Answer like an operator: scope, observe, hypothesize, smallest safe change, validate, explain"
+      ],
+      "scenarios": [
+        {
+          "id": "tl-why-allowlisting",
+          "title": "Why allowlisting, not another detector?",
+          "situation": "The interviewer leans in: “We already have an EDR. Convince me in ninety seconds that default-deny allowlisting is worth the operational pain.” Two engineers on the panel run detection tooling today, so the answer has to respect their work while making the prevention case.",
+          "prompt": "What is the strongest ninety-second answer?",
+          "evidence": [
+            [
+              "detection reality",
+              "Signature and behavior engines classify AFTER execution begins — fileless, living-off-the-land, and zero-day techniques execute before a verdict exists."
+            ],
+            [
+              "allowlisting logic",
+              "Default-deny asks one question before anything runs: is this explicitly trusted? Unknown code — ransomware, novel malware, rogue scripts — is denied without needing a signature."
+            ],
+            [
+              "the panel’s world",
+              "EDR is still valuable: telemetry, hunting, and forensics. Allowlisting does not replace detection; it shrinks what detection must chase by preventing most execution in the first place."
+            ]
+          ],
+          "choices": [
+            "EDR is obsolete — allowlisting detects everything faster and cheaper",
+            "Allowlisting inverts the burden: instead of recognizing every bad thing, you approve the known-good and deny the rest by default, which stops fileless and zero-day execution that detectors must observe first; EDR then focuses on a much smaller, higher-signal workload",
+            "Allowlisting is mainly a compliance checkbox that looks good in audits",
+            "Both approaches are identical; the choice is just vendor preference"
+          ],
+          "answer": 1,
+          "why": "This answer states the philosophical core — deny-by-default shifts the problem from enumerating badness, which can never be complete, to approving known-good, which is finite — while respecting the panel’s EDR expertise instead of dismissing it. Interviewers at a Zero Trust company listen for exactly that framing: prevention first, detection as the backstop.",
+          "hint": "Which list is smaller: everything malicious that could ever exist, or everything this business needs to run?",
+          "objectives": [
+            "allowlisting",
+            "default-deny",
+            "edr-vs-prevention"
+          ],
+          "mins": 6
+        },
+        {
+          "id": "tl-company-story",
+          "title": "“What do you know about us?”",
+          "situation": "“Walk me through what you know about ThreatLocker.” The hiring manager wants specifics, not slogans. You have sixty seconds before they move on, and they can tell instantly who did the homework.",
+          "prompt": "Which answer shows genuine preparation?",
+          "evidence": [
+            [
+              "founding",
+              "Founded 2017 in Orlando, Florida by Danny Jenkins (CEO), Sami Jenkins (COO), and John Carolan."
+            ],
+            [
+              "model",
+              "Zero Trust endpoint platform built on deny-by-default; sold heavily through the MSP channel to 70,000+ organizations."
+            ],
+            [
+              "products",
+              "Allowlisting, Ringfencing, Storage Control, Elevation Control, Network Control, Web Control, and the Cyber Hero MDR team."
+            ],
+            [
+              "momentum",
+              "$190M Series F in July 2026; a free six-week Zero Trust Cybersecurity Bootcamp; the annual Zero Trust World conference in Orlando."
+            ]
+          ],
+          "choices": [
+            "They are an antivirus company from California that sells to consumers",
+            "Founded 2017 in Orlando: a Zero Trust endpoint platform on deny-by-default — Allowlisting, Ringfencing, Storage, Elevation, and Network Control plus the Cyber Hero MDR team — sold through MSPs to 70,000+ organizations, fresh off a $190M Series F",
+            "They make firewalls and VPNs for large enterprises",
+            "A startup with no public funding history or community programs"
+          ],
+          "answer": 1,
+          "why": "Concrete facts — founding year and city, the deny-by-default model, the product names, the MSP channel, a recent milestone — signal homework. Vague praise or wrong facts (consumer AV, California, firewalls) signal the opposite, and interviewers keep score.",
+          "hint": "Name the year, the city, the philosophy, and at least three products.",
+          "objectives": [
+            "company-knowledge",
+            "interview-prep"
+          ],
+          "mins": 5
+        },
+        {
+          "id": "tl-explain-ringfencing",
+          "title": "Explain Ringfencing to a CFO",
+          "situation": "The panel asks you to explain Ringfencing to a non-technical executive in under a minute. The CFO cares about risk and cost, not process trees or API hooks. Everyone in the room will remember whether you translated or lectured.",
+          "prompt": "Which explanation lands?",
+          "evidence": [
+            [
+              "technical truth",
+              "Ringfencing constrains what an ALLOWED application may do: which other apps it can launch, which files and registry keys it can touch, and where on the network it can go."
+            ],
+            [
+              "business translation",
+              "Most ransomware does not arrive as malware — it hijacks trusted tools like Word or PowerShell. Ringfencing keeps those tools on a leash."
+            ],
+            [
+              "the one-liner",
+              "“Word is allowed to run, but it may not launch PowerShell, read the credential store, or phone home — so a hijacked Word cannot become ransomware.”"
+            ]
+          ],
+          "choices": [
+            "Ringfencing is a kernel-level API-hooking framework that intercepts NT syscalls via a minifilter driver and evaluates IRP_MJ_CREATE operations against a policy DAG…",
+            "Word is allowed to run, but Ringfencing keeps it on a leash: it cannot launch PowerShell, read the credential store, or reach the internet — so even a compromised Word cannot turn into ransomware, which is how most modern attacks actually start",
+            "Ringfencing blocks all Microsoft Office applications for security",
+            "Ringfencing is the same thing as antivirus signatures, just renamed"
+          ],
+          "answer": 1,
+          "why": "Executives buy outcomes, not mechanisms. The winning answer translates the four restriction dimensions into one vivid business image — a trusted tool on a leash — and ties it to how attacks really work. Jargon-first answers lose the room; wrong answers (blocking Office entirely) lose the interview.",
+          "hint": "If the CFO remembers one sentence after you leave, what should it be?",
+          "objectives": [
+            "ringfencing",
+            "communication",
+            "executive-translation"
+          ],
+          "mins": 5
+        },
+        {
+          "id": "tl-elevation-jit",
+          "title": "The local-admin request",
+          "situation": "A department head asks IT to make her whole team local admins “to stop the UAC prompts.” The ticket lands with you ten minutes before the panel’s scenario round, and you know they will ask how you handled it.",
+          "prompt": "What is the Zero Trust answer?",
+          "evidence": [
+            [
+              "standing admin risk",
+              "Permanent local-admin rights turn every compromised account into a domain-wide incident; most privilege escalation starts from standing admin."
+            ],
+            [
+              "elevation control",
+              "Just-in-time elevation grants a SPECIFIC approved application admin rights for a specific user, time-boxed — no admin credentials exposed, no standing rights restored."
+            ],
+            [
+              "application hopping",
+              "An elevated app can spawn other tools. Ringfence the elevated process so it cannot hop to PowerShell or cmd."
+            ]
+          ],
+          "choices": [
+            "Grant local admin to the team — productivity first, audit later",
+            "Refuse outright and close the ticket with no alternative",
+            "Offer just-in-time Elevation Control: elevate only the approved application they actually need, time-boxed, with the elevated process ringfenced against hopping to PowerShell or cmd — and every elevated session logged",
+            "Tell them to disable UAC on their machines"
+          ],
+          "answer": 2,
+          "why": "The Zero Trust move is least privilege with usability preserved: scope the elevation to the app, bound it in time, ringfence it, and audit it. Blanket admin restores the exact risk the company exists to remove; a flat refusal without an alternative fails the service test the panel is also scoring.",
+          "hint": "What does the team actually need — admin rights, or one app that runs elevated?",
+          "objectives": [
+            "elevation-control",
+            "least-privilege",
+            "service-judgment"
+          ],
+          "mins": 6
+        },
+        {
+          "id": "tl-customer-pressure",
+          "title": "The angry customer wants the policy off",
+          "situation": "A customer on a support call demands you disable the blocking policy “right now” because payroll software is frozen on twelve machines. Their tone is rising. You can see the deny events in Unified Audit: the updater’s child MSI is unsigned and unmatched by any rule.",
+          "prompt": "What is the best response?",
+          "evidence": [
+            [
+              "audit truth",
+              "Unified Audit shows exactly what was denied and why: the updater’s child MSI is unsigned and unmatched by any rule."
+            ],
+            [
+              "service truth",
+              "The customer is not wrong to be upset — payroll is down. Empathy and a timeline rebuild trust faster than defensiveness."
+            ],
+            [
+              "security truth",
+              "Disabling the policy to clear the symptom trades a payroll delay for an open endpoint. The narrow fix is a scoped rule for the signed updater plus its child process."
+            ]
+          ],
+          "choices": [
+            "Disable the policy immediately to restore service, then re-enable it later",
+            "Acknowledge the urgency, give a concrete timeline, use Unified Audit to identify the blocked child process, and apply a scoped rule for the signed updater — validating the install works while unrelated unsigned code stays denied",
+            "Tell the customer the block is correct and end the call",
+            "Blame the customer’s software vendor for shipping an unsigned installer"
+          ],
+          "answer": 1,
+          "why": "Cyber Hero culture is prevention plus service: translate the technical state into plain language, set expectations, and fix narrowly. Disabling the control solves the ticket and creates the incident; lecturing the customer solves neither. The double validation — good path works, denied path stays denied — is what separates a fix from a bypass.",
+          "hint": "The audit already told you the precise, narrow fix. What does the customer need to hear first?",
+          "objectives": [
+            "customer-service",
+            "unified-audit",
+            "change-control"
+          ],
+          "mins": 7
+        },
+        {
+          "id": "tl-ztna-vs-vpn",
+          "title": "“Do we still need the VPN?”",
+          "situation": "In the technical round, an infrastructure engineer asks: “We run a traditional VPN concentrator for remote access. Why would Zero Trust Network Access change anything?” They want architecture reasoning, not a brochure.",
+          "prompt": "Which answer shows you understand the network-control story?",
+          "evidence": [
+            [
+              "vpn exposure",
+              "A VPN concentrator is an open inbound port and a trusted tunnel: authenticate once, roam the flat network. It is a favorite initial-access target."
+            ],
+            [
+              "ztna model",
+              "ZTNA brokers per-session, per-application connections — commonly over port 443 — with no open inbound ports and no implicit trust after authentication."
+            ],
+            [
+              "platform position",
+              "Network Control is the host-based firewall foundation; ZTNA extends deny-by-default from the endpoint to network access itself."
+            ]
+          ],
+          "choices": [
+            "VPNs are fine; ZTNA is just marketing for the same tunnel",
+            "A VPN opens an inbound port and grants broad network trust after one login; ZTNA brokers per-app, per-session connections with no open inbound ports and no standing trust — it applies the same deny-by-default philosophy to network access that allowlisting applies to execution",
+            "ZTNA means removing all firewalls",
+            "The answer is to buy a bigger VPN concentrator"
+          ],
+          "answer": 1,
+          "why": "The parallel is the point: allowlisting denies unknown execution, ZTNA denies unknown network access. Naming the concrete weaknesses of VPN posture — open inbound ports, flat trust after authentication — shows you think in Zero Trust terms rather than product slogans, which is exactly what the infrastructure engineer is testing.",
+          "hint": "Apply “never trust, always verify” to the network path the same way allowlisting applies it to the file path.",
+          "objectives": [
+            "ztna",
+            "network-control",
+            "zero-trust"
+          ],
+          "mins": 6
+        },
+        {
+          "id": "tl-testing-environment",
+          "title": "The unknown updater",
+          "situation": "Approval Center shows a user request: “Acme Updater 4.2” — unsigned, first seen in the environment, requested by Finance ten minutes before month-end close. The hash matches nothing in your catalog. Neither trust nor malice is established.",
+          "prompt": "What is the correct triage sequence?",
+          "evidence": [
+            [
+              "what you know",
+              "Unsigned, unknown hash, first-seen, urgent business need. Neither trust nor malice is established — this is a question, not a verdict."
+            ],
+            [
+              "testing environment",
+              "A one-button cloud VDI sandbox can detonate the installer and log AV-vendor flags, canary-file access, and registry/system changes before any production decision."
+            ],
+            [
+              "rule strength",
+              "Certificate rules outrank hash rules; hash outranks path. An unsigned first-seen binary earns no standing rule today."
+            ]
+          ],
+          "choices": [
+            "Approve it by path — Finance needs it now",
+            "Deny it permanently and close the request",
+            "Detonate it in the Testing Environment first, review the risk-center findings, then decide: clean behavior earns a narrowly scoped rule, suspicious behavior earns a deny with documented evidence",
+            "Approve the hash globally so nobody is blocked again"
+          ],
+          "answer": 2,
+          "why": "Unknown does not mean malicious, and urgent does not mean trusted. The sandbox turns a guess into observed behavior; the scoped rule gives Finance a path forward without granting a permanent, global exception for an unsigned binary. Urgency never upgrades the rule.",
+          "hint": "You need evidence, not a coin flip. What tool turns “unknown” into “observed”?",
+          "objectives": [
+            "testing-environment",
+            "approval-workflow",
+            "triage"
+          ],
+          "mins": 7
+        }
+      ]
+    },
+    {
+      "id": "tl-endpoint-ops",
+      "name": "Zero Trust Endpoint Operations",
+      "summary": "Operating a default-deny endpoint fleet: allowlisting discipline, Ringfencing containment, just-in-time elevation, storage and network control, assume-breach thinking, and the change-control habits that keep security and usability from becoming enemies.",
+      "key_points": [
+        "Default-deny vs default-allow: approve the finite known-good list, not the infinite known-bad list",
+        "Ringfencing leashes allowed apps across four dimensions: app-to-app, file, registry, network",
+        "Rule strength: certificate over hash over path — never path rules in user-writable locations",
+        "Elevation is just-in-time, per-app, time-boxed, ringfenced, and logged — never standing admin",
+        "Storage by serial, network by destination; assume breach throughout",
+        "Change control: scoped fixes, double validation, rollback plans — speed never cancels the process"
+      ],
+      "scenarios": [
+        {
+          "id": "tl-deny-vs-allow",
+          "title": "The ransomware that wasn’t on any list",
+          "situation": "A brand-new ransomware variant hits a peer company. No vendor has a signature for it yet. Your CISO asks why your endpoints would fare differently — and wants the answer in plain language for the board summary.",
+          "prompt": "What is the core of the answer?",
+          "evidence": [
+            [
+              "blocklisting",
+              "Default-allow asks: do I recognize this as bad? Unknown code runs until someone proves it malicious — the window every zero-day lives in."
+            ],
+            [
+              "allowlisting",
+              "Default-deny asks: is this explicitly trusted? The novel ransomware was never approved, so it never executes — no signature required."
+            ],
+            [
+              "the tradeoff",
+              "The cost is operational: every legitimate new app needs an approval path. That is what Learning Mode, the Approval Center, and certificate rules exist to manage."
+            ]
+          ],
+          "choices": [
+            "Our antivirus updates faster than theirs",
+            "Default-deny inverts the question from “is this known-bad?” to “is this explicitly trusted?” — the novel ransomware was never approved, so it never runs, with no signature needed; the operational cost is managed through Learning Mode, certificate rules, and the Approval Center",
+            "We would be equally exposed; security is mostly luck",
+            "Blocklisting is stronger because it only stops confirmed threats"
+          ],
+          "answer": 1,
+          "why": "This is the entire philosophy in one incident: enumerating badness can never be complete, so the model approves known-good instead. Naming the operational cost — and the machinery that pays it — shows you understand this is an engineering tradeoff, not magic, which is what makes the board version credible.",
+          "hint": "Which list is finite: every malicious file that could ever exist, or every application this business needs?",
+          "objectives": [
+            "default-deny",
+            "allowlisting",
+            "philosophy"
+          ],
+          "mins": 6
+        },
+        {
+          "id": "tl-ringfence-word",
+          "title": "Word wants to launch PowerShell",
+          "situation": "Unified Audit flags: WINWORD.EXE spawned powershell.exe with an encoded command, then reached out to an external IP. The document came from a vendor email. Word itself is an approved, signed application — no allowlist or signature engine would stop it from launching.",
+          "prompt": "What does this incident teach about application control versus antivirus?",
+          "evidence": [
+            [
+              "the bypass",
+              "Word is trusted and signed. The attack lives not in WHETHER Word runs, but in WHAT Word was allowed to do once running."
+            ],
+            [
+              "ringfencing dimensions",
+              "Four independent leashes: application-to-application interaction, file access, registry access, network access."
+            ],
+            [
+              "living off the land",
+              "Attackers prefer trusted binaries precisely because they inherit trust. Containment assumes the app is already compromised."
+            ]
+          ],
+          "choices": [
+            "Remove Word from the allowlist — Office is too dangerous to permit",
+            "This is exactly what Ringfencing is for: Word stays approved, but policy denies it from spawning PowerShell, reading the credential store, and reaching unapproved network destinations — containment assumes breach even of trusted apps",
+            "Quarantine the endpoint and reinstall Windows; policy cannot help",
+            "Add powershell.exe to the blocklist globally"
+          ],
+          "answer": 1,
+          "why": "Application control answers “may it run?”; Ringfencing answers “what may it do once running?” Living-off-the-land attacks exploit the gap between those two questions. Removing Office breaks the business; blocklisting PowerShell globally breaks administration. Containment threads the needle.",
+          "hint": "The malicious thing here is not a file — it is a behavior. Which control governs behavior?",
+          "objectives": [
+            "ringfencing",
+            "living-off-the-land",
+            "containment"
+          ],
+          "mins": 7
+        },
+        {
+          "id": "tl-legit-blocked",
+          "title": "Payroll is down: the false-positive drill",
+          "situation": "Monday 8:04 a.m.: twelve Finance endpoints block the payroll updater after an overnight policy push. The binary is signed by the real vendor; the hash changed with the new version. This is a version-change false positive, not an attack — but payroll does not care about the distinction.",
+          "prompt": "What is the correct change-control response?",
+          "evidence": [
+            [
+              "diagnosis",
+              "Unified Audit: signed by the known vendor certificate, hash not in catalog — a version-change false positive, not an attack."
+            ],
+            [
+              "narrow fix",
+              "A certificate/publisher rule covers the vendor’s future versions; a hash rule would break again at the next update. Scope it to the updater and its child installer."
+            ],
+            [
+              "change control",
+              "Emergency change still gets a ticket, a tested scope, a rollout window, and a rollback plan — speed does not cancel the process."
+            ]
+          ],
+          "choices": [
+            "Roll back the entire policy push and leave endpoints unprotected until next week",
+            "Confirm the vendor signature in Unified Audit, issue a scoped certificate-based rule for the updater and its child process, deploy, validate the install succeeds AND an unrelated unsigned binary still gets denied, and log the emergency change with a rollback step",
+            "Approve the new hash globally for all users permanently",
+            "Tell Finance to wait for the next scheduled change window"
+          ],
+          "answer": 1,
+          "why": "Certificate rules survive version churn where hash rules do not; scoping prevents the exception from becoming a hole; and the double validation — the good path works, the bad path stays denied — is what separates a fix from a bypass. Emergency changes follow the process faster, not without it.",
+          "hint": "Fix the narrowest thing that unblocks payroll without unblocking everything else.",
+          "objectives": [
+            "false-positives",
+            "change-control",
+            "certificate-rules"
+          ],
+          "mins": 8
+        },
+        {
+          "id": "tl-usb-unknown",
+          "title": "The mystery USB drive",
+          "situation": "A facilities contractor plugs an unrecognized USB drive into a reception PC and a copy dialog opens. Storage Control is in Monitor Only. The drive’s serial is not in the approved-device list, and file operations may already have occurred.",
+          "prompt": "What should the Storage Control posture have been, and what do you do now?",
+          "evidence": [
+            [
+              "default posture",
+              "Unapproved devices do not connect — allow by serial number, user, file type, and time window, with mandatory encryption or read-only options."
+            ],
+            [
+              "current state",
+              "Monitor Only observed but did not block; the copy dialog means file operations may already have happened."
+            ],
+            [
+              "audit trail",
+              "Every file copied, moved, or deleted on controlled storage is audited — check what actually happened before deciding the scope of response."
+            ]
+          ],
+          "choices": [
+            "Leave Monitor Only on — blocking USB drives annoys people",
+            "Enforce the deny-by-default posture for unknown serials, audit the file operations that already occurred from the logs, contain the reception PC until the drive’s contents are assessed, and approve contractor devices only via time-boxed, read-only, serial-scoped access",
+            "Ban all USB devices everywhere permanently",
+            "Format the drive and hand it back to the contractor"
+          ],
+          "answer": 1,
+          "why": "Storage Control’s power is granularity: serial-scoped, time-boxed, read-only access instead of a binary allow/ban. But first the audit trail tells you what already happened — respond to the evidence, then tighten the posture so the next unknown drive never mounts.",
+          "hint": "What did Monitor Only buy you, and what would enforcement have bought you?",
+          "objectives": [
+            "storage-control",
+            "usb",
+            "incident-response"
+          ],
+          "mins": 7
+        },
+        {
+          "id": "tl-egress-c2",
+          "title": "The beacon nobody approved",
+          "situation": "A workstation’s approved backup agent starts opening HTTPS connections to an IP in a foreign ASN every 90 seconds. Network Control logs the flows as allowed under a broad “backup application” rule. The agent may be compromised or misconfigured.",
+          "prompt": "What is the network-control lesson?",
+          "evidence": [
+            [
+              "the gap",
+              "The rule approved the APPLICATION, not its destinations. Egress allowlisting must scope where an app may talk, not just that it may talk."
+            ],
+            [
+              "assume breach",
+              "Treat the flow as hostile until proven otherwise — the agent is a foothold candidate, not a trusted friend."
+            ],
+            [
+              "least privilege",
+              "Rules by port, source IP, and dynamic ACLs can pin the agent to the vendor’s known backup endpoints only."
+            ]
+          ],
+          "choices": [
+            "Block all HTTPS from the workstation",
+            "Isolate the host, then replace the broad rule with egress allowlisting scoped to the vendor’s known backup destinations (port/IP-scoped, dynamic ACLs), and investigate the beaconing as a potential compromise — approval of the app never implied approval of every destination",
+            "Uninstall the backup agent",
+            "Ignore it — HTTPS to unknown IPs is normal"
+          ],
+          "answer": 1,
+          "why": "This is Ringfencing’s network dimension applied at the host firewall: least privilege for destinations. A broad application rule recreated the flat-trust problem Zero Trust was hired to kill. Scope the where, investigate the why — and isolate first, because assume-breach means the beacon is guilty until proven innocent.",
+          "hint": "The policy said the app could talk. It never said to whom.",
+          "objectives": [
+            "network-control",
+            "egress",
+            "assume-breach"
+          ],
+          "mins": 7
+        },
+        {
+          "id": "tl-standing-admin",
+          "title": "Assume breach: the admin account audit",
+          "situation": "An access review finds 40 users with standing local-admin rights “from before the rollout,” plus three admin accounts belonging to people who left months ago. No incidents — yet. The CISO wants a remediation plan, not a shrug.",
+          "prompt": "What is the assume-breach remediation?",
+          "evidence": [
+            [
+              "standing privilege",
+              "Every standing admin is pre-staged privilege escalation. Attackers do not hack in; they log in — with the rights you left lying around."
+            ],
+            [
+              "elevation control",
+              "Replace standing rights with just-in-time, per-app, time-boxed elevation; auto-remove unused and unauthorized local admin accounts."
+            ],
+            [
+              "monitoring",
+              "Every elevated session is logged and audited; elevated processes get ringfenced against application hopping."
+            ]
+          ],
+          "choices": [
+            "Leave them — no incident means no problem",
+            "Remove standing local-admin rights, replace with just-in-time per-app elevation for documented needs, purge orphaned accounts, ringfence elevated processes, and keep every elevated session logged and reviewed",
+            "Give everyone domain admin so access reviews pass trivially",
+            "Delete the admin accounts but keep a shared admin password for emergencies"
+          ],
+          "answer": 1,
+          "why": "Assume breach means designing as if the attacker already has a foothold — and standing admin IS the foothold. The remediation is not just removal but replacement: a usable, audited elevation path, or users will route around you and recreate the risk unofficially.",
+          "hint": "If an attacker phishes one of those 40 users today, what do they inherit?",
+          "objectives": [
+            "assume-breach",
+            "elevation-control",
+            "least-privilege"
+          ],
+          "mins": 6
+        },
+        {
+          "id": "tl-usability-rollout",
+          "title": "The rollout revolt",
+          "situation": "Week one of enforced allowlisting: the helpdesk is drowning, two department heads demand the project be killed, and a VP forwards a complaint thread to the CISO. The policies are technically correct — the deployment around them was not.",
+          "prompt": "What is the right operational response?",
+          "evidence": [
+            [
+              "the real failure",
+              "Technically correct policy with no communication plan, no staged rollout, and no fast approval path is a deployment failure, not a user failure."
+            ],
+            [
+              "pressure valves",
+              "Monitor Only mode for new app classes, Testing Environment pre-approval, and a staffed Approval Center with a published SLA turn blocks into brief pauses."
+            ],
+            [
+              "metrics",
+              "Track block rate, approval latency, and repeat requests — you cannot tune what you do not measure."
+            ]
+          ],
+          "choices": [
+            "Push through — security requires suffering",
+            "Kill the rollout and go back to antivirus-only",
+            "Pause enforcement for the noisiest app classes (Monitor Only), publish the approval SLA, staff the Approval Center through the transition, pre-approve via the Testing Environment, and tune with block-rate and approval-latency metrics — then re-enforce in stages",
+            "Exempt executives and department heads from all policies"
+          ],
+          "answer": 2,
+          "why": "Security versus usability is a false choice when the deployment is engineered: staged enforcement, fast approvals, and measured tuning keep the deny-by-default posture while the organization adapts. Exempting leadership just moves the risk onto the most-targeted accounts in the company.",
+          "hint": "The policies are correct — so what part of the rollout was not?",
+          "objectives": [
+            "change-management",
+            "usability",
+            "rollout"
+          ],
+          "mins": 7
+        }
+      ]
+    }
+  ],
+  "lessons": [
+    {
+      "domain_id": "tl-interview",
+      "title": "Know the company cold: ThreatLocker in sixty seconds",
+      "concepts": [
+        "Founded 2017 in Orlando, Florida — Danny Jenkins (CEO), Sami Jenkins (COO), John Carolan (QA)",
+        "Deny-by-default philosophy: approve known-good, deny everything else — prevention before detection",
+        "The stack: Allowlisting, Ringfencing, Storage Control, Elevation Control, Network Control, Web Control",
+        "Cyber Hero MDR: 24/7/365 US-based team, ~60-second average response",
+        "Go-to-market: MSP channel; 70,000+ organizations; $190M Series F (July 2026)",
+        "Culture signals: in-office five days in Orlando, free six-week bootcamp, peer-voted “most helpful” awards"
+      ],
+      "example": {
+        "lang": "shell",
+        "code": "cat ~/prep/threatlocker-facts.txt\n# 2017 · Orlando FL · deny-by-default\n# Allowlisting / Ringfencing / Storage / Elevation / Network / Web\n# Cyber Hero MDR · 70,000+ orgs · $190M Series F (Jul 2026)",
+        "walkthrough": "Sixty seconds of specifics beats five minutes of adjectives. Keep a fact sheet with the founding year, the philosophy, the product names, and one recent milestone — then rehearse saying it out loud until the numbers come without thinking. Interviewers score preparation, not enthusiasm."
+      },
+      "pitfalls": [
+        "Claiming any affiliation with ThreatLocker — this is independent interview prep about their public concepts",
+        "Reciting slogans (“world-class synergy”) instead of verifiable facts",
+        "Inventing product details you have not verified — say what you know, flag what you do not"
+      ],
+      "try_it": "Record yourself giving the sixty-second company brief. Play it back and count the concrete facts — aim for six: year, city, philosophy, three products, one milestone."
+    },
+    {
+      "domain_id": "tl-interview",
+      "title": "Answer like an operator: STAR stories and the triage loop",
+      "concepts": [
+        "STAR: Situation, Task, Action, Result — one story per question, two minutes max",
+        "The triage loop: scope → observe → hypothesize → smallest safe change → validate → explain",
+        "Evidence first: cite the audit or log line before the conclusion",
+        "Never disable the control to clear the symptom — fix narrowly",
+        "Translate for the audience: executives get outcomes, engineers get mechanisms"
+      ],
+      "example": {
+        "lang": "shell",
+        "code": "echo \"IMPACT: payroll updater blocked on 12 endpoints\"\necho \"EVIDENCE: audit denies unsigned child MSI; signer valid\"\necho \"ACTION: scoped certificate rule for updater + child\"\necho \"VALIDATE: install works; unrelated unsigned MSI still denied\"",
+        "walkthrough": "Write the brief before you speak it. Four lines — impact, evidence, action, validation — force you to lead with facts and close with proof, which is exactly the shape interviewers score. If you cannot write it in four lines, you do not understand it yet."
+      },
+      "pitfalls": [
+        "Answering with opinions before establishing facts",
+        "Skipping the validation step in your story — “it worked” is not validation",
+        "Badmouthing a previous employer, vendor, or customer to sound decisive"
+      ],
+      "try_it": "Take your hardest homelab problem (can you build a VM? what broke?) and write it as four echo lines. Then explain it out loud in under two minutes."
+    },
+    {
+      "domain_id": "tl-endpoint-ops",
+      "title": "Default-deny operations: from Learning Mode to least privilege",
+      "concepts": [
+        "Default-deny vs default-allow: approve the finite known-good list instead of chasing the infinite known-bad list",
+        "Rule strength: certificate > hash > path — never path rules in user-writable locations",
+        "Learning Mode catalogs before enforcement; Installation Mode pauses blocking — scope and time-box both",
+        "Ringfencing’s four leashes: app-to-app, file, registry, network",
+        "Elevation is just-in-time, per-app, time-boxed, ringfenced, and logged — never standing admin",
+        "Storage by serial, network by destination; assume breach throughout"
+      ],
+      "example": {
+        "lang": "shell",
+        "code": "sha256sum AcmeUpdater.msi\n# <hash>  AcmeUpdater.msi   — the hash names the bytes, not the trust\ngrep ERROR logs/app.log\n# read the exact denial/failure lines BEFORE writing any rule",
+        "walkthrough": "Hash the file to establish identity, then read the exact log lines before writing any rule. Rules come from evidence — the signature, the hash, the blocked child process — never from the ticket title or the requester’s urgency. This is the habit every scenario in this domain is testing."
+      },
+      "pitfalls": [
+        "Approving by path in user-writable directories — the weakest rule where it matters most",
+        "Leaving Installation or Learning Mode on indefinitely — an open gate with no timer",
+        "Writing global rules for one user’s request — scope is the whole discipline"
+      ],
+      "try_it": "Pick one scenario in this domain and write the rule you would create: rule type (certificate/hash/path), exact scope, and one sentence on why that type."
+    }
+  ],
+  "labs": [
+    {
+      "id": "fsd-tl-lab-1",
+      "title": "Egress posture: what can this endpoint reach?",
+      "objective": "Use nmap, dig, and ping to verify the endpoint’s network posture the way a Network Control review would: which ports answer, whether DNS resolves, and whether the path is alive.",
+      "steps": [
+        "Open the Terminal tab for this bootcamp — every command runs in the simulated shell.",
+        "Type exactly: nmap scanme.interstitium.lab — read the PORT table and note which of 22, 80, 443 answer.",
+        "Type exactly: dig files.corp.test — confirm the ANSWER SECTION returns an A record.",
+        "Type exactly: ping gateway — confirm the summary line shows 0% packet loss.",
+        "In one sentence, say which of these three results would change first if an egress-deny rule landed."
+      ],
+      "checks": [
+        {
+          "command_pattern": "^nmap\\s",
+          "expect_contains": "22/tcp   open",
+          "hint": "Run: nmap scanme.interstitium.lab — then read the PORT/STATE table."
+        },
+        {
+          "command_pattern": "^dig\\s",
+          "expect_contains": "ANSWER SECTION",
+          "hint": "Run: dig files.corp.test — look for the answer section."
+        },
+        {
+          "command_pattern": "^ping\\s",
+          "expect_contains": "0% packet loss",
+          "hint": "Run: ping gateway — check the summary line at the end."
+        }
+      ],
+      "success_message": "Network posture mapped: open ports, working DNS, live path. That is the baseline every Network Control change gets measured against."
+    },
+    {
+      "id": "fsd-tl-lab-2",
+      "title": "File identity before approval: hash it, then check the record",
+      "objective": "Practice the allowlisting evidence step: establish a file’s identity with a hash and confirm host records before any approve/deny decision.",
+      "steps": [
+        "Open the Terminal tab for this bootcamp — every command runs in the simulated shell.",
+        "Type exactly: sha256sum AcmeUpdater.msi — the shell computes a real SHA-256. The hash names the bytes, not the trust.",
+        "Type exactly: grep interstitium /etc/hosts — confirm the host record behind the request.",
+        "Type exactly: cat /etc/hosts — read the whole file and note how small the trust surface is.",
+        "Decide: with only this evidence, would you approve, deny, or sandbox? Say why in one sentence."
+      ],
+      "checks": [
+        {
+          "command_pattern": "^sha256sum\\s",
+          "expect_contains": "AcmeUpdater.msi",
+          "hint": "Hash the file: sha256sum AcmeUpdater.msi — the filename echoes in the output."
+        },
+        {
+          "command_pattern": "^grep\\s+interstitium\\s+/etc/hosts",
+          "expect_contains": "10.0.0.8",
+          "hint": "Search the hosts file: grep interstitium /etc/hosts."
+        }
+      ],
+      "success_message": "Identity established: hash for the bytes, host record for the claim. Approval decisions start here — never from the ticket title alone."
+    },
+    {
+      "id": "fsd-tl-lab-3",
+      "title": "What’s listening, what’s running: service posture",
+      "objective": "Verify service state and listening sockets — the assume-breach habit of checking what the endpoint is actually doing, not what the diagram says it does.",
+      "steps": [
+        "Open the Terminal tab for this bootcamp — every command runs in the simulated shell.",
+        "Type exactly: ss — list listening sockets and note the ports.",
+        "Type exactly: systemctl status updater — confirm the unit is active (running).",
+        "Type exactly: journalctl -u updater — read the service log and find the “listening on” line.",
+        "Type exactly: ps — confirm which processes are actually alive right now."
+      ],
+      "checks": [
+        {
+          "command_pattern": "^ss",
+          "expect_contains": "0.0.0.0:443",
+          "hint": "List sockets with: ss — find the listening ports."
+        },
+        {
+          "command_pattern": "^systemctl\\s+status\\s+\\S+",
+          "expect_contains": "active (running)",
+          "hint": "Check the unit: systemctl status updater."
+        },
+        {
+          "command_pattern": "^journalctl\\s",
+          "expect_contains": "listening on :8080",
+          "hint": "Read the log: journalctl -u updater — find what it is listening on."
+        }
+      ],
+      "success_message": "Posture verified: sockets, service state, and logs agree. When they disagree, that is where the investigation starts."
+    }
+  ],
+  "simulations": [
+    {
+      "id": "fsd-tl-sim-approve-deny",
+      "title": "Unknown application request: approve, deny, or ringfence?",
+      "kind": "branching",
+      "domain_id": "tl-endpoint-ops",
+      "difficulty": 2,
+      "brief": "You are staffing the Approval Center queue on a busy Monday. A request arrives for “Acme Updater 4.2” — unsigned, first-seen, requested by Finance ten minutes before month-end close. Work the decision tree; every choice is scored.",
+      "steps": [
+        {
+          "id": "s1",
+          "text": "Request T-101: “Acme Updater 4.2”, unsigned, hash not in catalog, requested by Finance, needed before month-end close. What is your first move?",
+          "choices": [
+            {
+              "label": "Approve it by path so Finance is unblocked",
+              "next": "END",
+              "points": 0,
+              "feedback": "Path approval for an unsigned first-seen binary is the weakest possible rule — and in a user-writable location it is barely a rule at all. Finance is unblocked and the endpoint is exposed.",
+              "outcome": "bad"
+            },
+            {
+              "label": "Deny it outright and close the request",
+              "next": "s3",
+              "points": 1,
+              "feedback": "Safe, but you denied a legitimate business need with zero evidence of malice. There is a better move that gets both safety and evidence."
+            },
+            {
+              "label": "Detonate it in the Testing Environment first",
+              "next": "s2",
+              "points": 3,
+              "feedback": "Correct instinct: turn “unknown” into “observed” before deciding."
+            },
+            {
+              "label": "Approve the hash globally so nobody gets blocked again",
+              "next": "END",
+              "points": 0,
+              "feedback": "A global hash approval for an untested binary trades one ticket for enterprise-wide exposure. Hash rules also break on the next version.",
+              "outcome": "bad"
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "text": "Testing Environment results: no AV-vendor flags, but the installer drops an unsigned helper that writes to Run keys and reaches an external IP. What now?",
+          "choices": [
+            {
+              "label": "Approve with a scoped certificate rule",
+              "next": "END",
+              "points": 1,
+              "feedback": "The binary is unsigned — there is no certificate to build the rule on, and the sandbox showed suspicious behavior. Evidence over convenience.",
+              "outcome": "bad"
+            },
+            {
+              "label": "Ringfence the updater: allow install, deny child-process spawning, registry writes, and unapproved network",
+              "next": "END",
+              "points": 3,
+              "feedback": "Textbook containment: Finance gets the update, the suspicious behaviors are leashed, and the decision is documented from sandbox evidence.",
+              "outcome": "good"
+            },
+            {
+              "label": "Escalate to the security team with the sandbox evidence",
+              "next": "END",
+              "points": 2,
+              "feedback": "Reasonable — but you had enough evidence to contain now and escalate in parallel. Containment should not wait for a meeting.",
+              "outcome": "good"
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "text": "You denied the request. Finance escalates: month-end close is at risk and the CFO is asking questions. The binary is still unsigned and untested. What now?",
+          "choices": [
+            {
+              "label": "Hold the deny — no evidence of safety exists",
+              "next": "END",
+              "points": 1,
+              "feedback": "Consistent, but the business is bleeding and you still have no evidence either way. The Testing Environment exists for exactly this moment.",
+              "outcome": "bad"
+            },
+            {
+              "label": "Reverse course: approve by path to stop the escalation",
+              "next": "END",
+              "points": 0,
+              "feedback": "Caving under pressure with the weakest rule type is how incidents are born. Pressure is a signal to get evidence faster, not to skip it.",
+              "outcome": "bad"
+            },
+            {
+              "label": "Detonate it in the Testing Environment now and decide from evidence",
+              "next": "s2",
+              "points": 3,
+              "feedback": "Right — the deny bought time; the sandbox buys the answer."
+            }
+          ]
+        }
+      ],
+      "debrief": "Unknown is not a verdict — it is a question the Testing Environment answers. Approve from evidence with the strongest rule the facts support (certificate over hash over path), contain the rest with Ringfencing, and never let urgency upgrade a weak rule into a global one.",
+      "points": 10
+    },
+    {
+      "id": "fsd-tl-sim-onboarding",
+      "title": "Order the allowlisting onboarding steps",
+      "kind": "ordering",
+      "domain_id": "tl-endpoint-ops",
+      "difficulty": 1,
+      "brief": "A new endpoint fleet is joining the platform. Put the onboarding steps in the order a disciplined rollout follows — the sequence that keeps deny-by-default from becoming a revolt.",
+      "steps": {
+        "context": "New endpoints arrive with unknown software already installed. Order the rollout steps from first to last.",
+        "items": [
+          "Install the agent in Learning Mode",
+          "Review the Learning Mode catalog and remove unknown items",
+          "Secure the computer: enforce deny-by-default",
+          "Ringfence high-risk approved apps (browsers, Office, PowerShell)",
+          "Handle ongoing user requests via the Approval Center"
+        ],
+        "correct_order": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "debrief": "Learn first, prune second, enforce third: the catalog must describe reality before deny-by-default enforces it. Ringfencing the high-risk apps and staffing the Approval Center are what keep enforcement from becoming a revolt — the ongoing request flow is the last step, not the first.",
+      "points": 10
+    }
+  ],
+  "consoleSims": [
+    {
+      "id": "fsd-tl-console-triage",
+      "title": "Cyber Hero triage queue: approve, deny, ringfence",
+      "console": "ticketing",
+      "domain_id": "tl-endpoint-ops",
+      "difficulty": 2,
+      "brief": "Monday morning in the triage queue. Two tickets need you: T-101, an application approval request for an unsigned updater, and T-102, a duplicate request for the same software. Work them in order: take ownership, document evidence, park the decision correctly, and clear the duplicate.",
+      "tasks": [
+        {
+          "id": "t1",
+          "instruction": "Take ownership of ticket T-101 (unsigned updater approval request) by assigning it to yourself.",
+          "validate": {
+            "action": "assign-ticket",
+            "params": {
+              "id": "T-101",
+              "assignee": "you"
+            }
+          },
+          "hint": "Assign T-101 to analyst “you”."
+        },
+        {
+          "id": "t2",
+          "instruction": "Add an evidence note to T-101: the publisher is unknown and the hash is first-seen — recommend sandbox detonation before any rule.",
+          "validate": {
+            "action": "add-note",
+            "params": {
+              "id": "T-101",
+              "text": "Unknown publisher, first-seen hash — send to Testing Environment before any rule."
+            }
+          },
+          "hint": "Add a note to T-101 with the evidence and the sandbox recommendation."
+        },
+        {
+          "id": "t3",
+          "instruction": "Park T-101 as on-hold while the Testing Environment runs — the queue should show it is waiting, not forgotten.",
+          "validate": {
+            "action": "update-status",
+            "params": {
+              "id": "T-101",
+              "status": "on-hold"
+            }
+          },
+          "hint": "Set T-101 status to on-hold."
+        },
+        {
+          "id": "t4",
+          "instruction": "Resolve T-102 as a duplicate of T-101 with a clear resolution note.",
+          "validate": {
+            "action": "resolve-ticket",
+            "params": {
+              "id": "T-102",
+              "resolution": "Duplicate of T-101 — merged; evidence note lives on T-101."
+            }
+          },
+          "hint": "Resolve T-102 as a duplicate of T-101."
+        }
+      ],
+      "debrief": "Triage is ownership plus evidence: assign it, write down what you know, park it in the right state, and keep the queue clean. The note on T-101 is what lets the next analyst — or the auditor — reconstruct the decision months later."
+    }
+  ],
+  "terminalMissions": [
+    {
+      "id": "fsd-tl-mission-1",
+      "title": "Allowlist evidence: identify before you decide",
+      "domain_id": "tl-endpoint-ops",
+      "difficulty": 1,
+      "brief": "A user requests approval for “AcmeUpdater.msi”. Before the ticket moves, establish the file’s identity and the host’s records — the same evidence an allowlisting decision requires.",
+      "objectives": [
+        "Compute the file’s SHA-256 identity",
+        "Confirm the host record for the update server",
+        "List running processes to see what is actually alive"
+      ],
+      "checks": [
+        {
+          "command_pattern": "^sha256sum\\s",
+          "expect_contains": "AcmeUpdater.msi",
+          "hint": "Hash the file: sha256sum AcmeUpdater.msi"
+        },
+        {
+          "command_pattern": "^grep\\s+interstitium\\s+/etc/hosts",
+          "expect_contains": "10.0.0.8",
+          "hint": "Check the host record: grep interstitium /etc/hosts"
+        },
+        {
+          "command_pattern": "^ps",
+          "expect_contains": "python3 app.py",
+          "hint": "List processes: ps"
+        }
+      ],
+      "success_message": "Evidence packet complete: file hash, host record, process list. This is the minimum a real approval decision stands on."
+    },
+    {
+      "id": "fsd-tl-mission-2",
+      "title": "Egress review: what may this endpoint reach?",
+      "domain_id": "tl-endpoint-ops",
+      "difficulty": 2,
+      "brief": "A broad firewall rule is under review. Verify the endpoint’s actual posture — open ports, listening sockets, DNS behavior, and service state — before you tighten it.",
+      "objectives": [
+        "Confirm which ports answer on the target host",
+        "List listening sockets on the endpoint",
+        "Verify DNS returns clean A records",
+        "Confirm the service unit is healthy"
+      ],
+      "checks": [
+        {
+          "command_pattern": "^nmap\\s",
+          "expect_contains": "443/tcp  open",
+          "hint": "Scan the host: nmap scanme.interstitium.lab"
+        },
+        {
+          "command_pattern": "^ss",
+          "expect_contains": "LISTEN",
+          "hint": "List sockets: ss"
+        },
+        {
+          "command_pattern": "^dig\\s",
+          "expect_contains": "IN    A",
+          "hint": "Check DNS: dig files.corp.test"
+        },
+        {
+          "command_pattern": "^systemctl\\s+status\\s+\\S+",
+          "expect_contains": "active (running)",
+          "hint": "Check the service: systemctl status updater"
+        }
+      ],
+      "success_message": "Posture mapped: ports, sockets, DNS, and service state. Now the tightening can be scoped to reality instead of guesswork."
+    }
+  ],
+  "media": [
+    {
+      "id": "tl-allowlist-vs-blocklist",
+      "kind": "diagram",
+      "title": "Allowlisting vs blocklisting: default-deny vs default-allow",
+      "svg": "assets/diagrams/tl-allowlist-vs-blocklist.svg",
+      "lesson_ref": "c-tl-endpoint-ops",
+      "caption": "Default-deny stops unknown code without a signature; default-allow runs it until one exists.",
+      "alt": "Side-by-side comparison: on the left, a default-deny gate runs known-good payroll software and denies unknown ransomware with no signature needed; on the right, a default-allow gate runs both until the ransomware is recognized as bad."
+    },
+    {
+      "id": "tl-ringfencing",
+      "kind": "diagram",
+      "title": "Ringfencing: four leashes on an allowed application",
+      "svg": "assets/diagrams/tl-ringfencing.svg",
+      "lesson_ref": "c-tl-endpoint-ops",
+      "caption": "Word stays approved, but it cannot spawn PowerShell, read the credential store, or reach the internet — while opening its document is allowed.",
+      "alt": "An approved Word application inside a dashed containment ring: arrows show PowerShell launch denied, credential-store registry access denied, external network denied, and document file access allowed."
+    },
+    {
+      "id": "tl-zero-trust-stack",
+      "kind": "diagram",
+      "title": "The Zero Trust endpoint stack",
+      "svg": "assets/diagrams/tl-zero-trust-stack.svg",
+      "lesson_ref": "c-tl-interview",
+      "caption": "Five deny-by-default layers — Allowlisting, Ringfencing, Elevation, Storage, Network — watched by Web Control, the Testing Environment, Unified Audit, and the Cyber Hero MDR team.",
+      "alt": "A vertical stack of five layers from Allowlisting at the foundation up through Ringfencing, Elevation Control, Storage Control, and Network Control, with side boxes for Web Control, Testing Environment, Unified Audit, and Cyber Hero MDR."
+    },
+    {
+      "id": "tl-triage-flow",
+      "kind": "diagram",
+      "title": "Application-request triage flow",
+      "svg": "assets/diagrams/tl-triage-flow.svg",
+      "lesson_ref": "c-tl-endpoint-ops",
+      "caption": "Gather evidence first, then branch: trusted gets a scoped rule, unknown goes to the sandbox, malicious gets a documented deny.",
+      "alt": "Flowchart from request arrival through evidence gathering to a decision diamond branching into three outcomes: approve with a scoped rule, detonate in the Testing Environment then ringfence, or deny with documented evidence."
+    }
+  ],
+  "resources": {
+    "cheatsheet": {
+      "title": "ThreatLocker Interview + Zero Trust Endpoint Ops — Cheatsheet",
+      "sections": [
+        {
+          "heading": "Company facts (verified)",
+          "items": [
+            "Founded 2017 in Orlando, FL — Danny Jenkins (CEO), Sami Jenkins (COO), John Carolan (QA)",
+            "Philosophy: deny-by-default / default-deny — approve known-good, deny the rest",
+            "Customers: 70,000+ organizations, sold heavily through the MSP channel",
+            "Funding: $190M Series F, July 2026 (Elephant-led); ~730 employees",
+            "Interview address: 1901 Summit Tower Blvd, Orlando, FL 32810",
+            "Culture: in-office 5 days/week; free lunch; post-offer background + drug screening"
+          ]
+        },
+        {
+          "heading": "Product stack",
+          "items": [
+            "Allowlisting — default-deny execution control for apps, DLLs, scripts, installers",
+            "Ringfencing — constrains allowed apps: app-to-app, file, registry, network",
+            "Storage Control — USB/device policy by serial, user, file type, encryption",
+            "Elevation Control — just-in-time per-app admin, no standing rights",
+            "Network Control — host firewall; port/IP/dynamic-ACL rules; ZTNA foundation",
+            "Web Control — agent-based DNS/URL category filtering, works off-network",
+            "Cyber Hero MDR — 24/7/365 US-based response, ~60-second average",
+            "Testing Environment — one-button VDI sandbox; checks AV flags, canary files, registry changes"
+          ]
+        },
+        {
+          "heading": "Rule strength (strongest to weakest)",
+          "items": [
+            "Certificate/publisher rules — survive version updates",
+            "Hash rules — precise but break on every new version",
+            "Path rules — weakest; never in user-writable locations",
+            "Learning Mode catalogs before enforcement; Installation Mode pauses blocking — scope and time-box both"
+          ]
+        },
+        {
+          "heading": "Terminal evidence commands",
+          "items": [
+            "nmap <host> — which ports answer (22/80/443 open)",
+            "dig <name> — ANSWER SECTION with the A record",
+            "ss — listening sockets",
+            "systemctl status <svc> — unit state",
+            "journalctl -u <svc> — service logs",
+            "sha256sum <file> — real SHA-256 identity",
+            "grep <pattern> <file> — search the record",
+            "ps — what is actually running"
+          ]
+        }
+      ]
+    },
+    "glossary": [
+      {
+        "term": "Allowlisting",
+        "def": "Default-deny execution control: only explicitly approved applications, scripts, and installers may run."
+      },
+      {
+        "term": "Blocklisting",
+        "def": "Default-allow model: everything runs except recognized-bad items — the window zero-days live in."
+      },
+      {
+        "term": "Default-deny",
+        "def": "Deny-by-default posture: unknown code, devices, or connections are refused unless explicitly approved."
+      },
+      {
+        "term": "Ringfencing",
+        "def": "Containment applied on top of allowlisting; restricts what a permitted app may do across app-to-app, file, registry, and network dimensions."
+      },
+      {
+        "term": "Learning Mode",
+        "def": "Agent mode that catalogs applications and dependencies and auto-builds policies before enforcement; temporarily disables file blocking."
+      },
+      {
+        "term": "Installation Mode",
+        "def": "Temporary mode that pauses file blocking for installs — must be tightly scoped and time-boxed."
+      },
+      {
+        "term": "Elevation Control",
+        "def": "Grants specific approved applications admin rights for standard users — just-in-time, per-app, time-boxed — without standing admin rights."
+      },
+      {
+        "term": "Application hopping",
+        "def": "An elevated or trusted process spawning another tool (e.g., PowerShell) to inherit its privileges — countered by ringfencing the elevated process."
+      },
+      {
+        "term": "Storage Control",
+        "def": "Device and path policy: USB approved by serial, user, file type, time, and encryption; unapproved devices do not connect."
+      },
+      {
+        "term": "Network Control",
+        "def": "Centrally managed host firewall; rules by port, source IP, and dynamic ACLs; egress allowlisting pins apps to approved destinations."
+      },
+      {
+        "term": "ZTNA",
+        "def": "Zero Trust Network Access: per-session, per-application brokered connections (commonly over port 443) with no open inbound ports — deny-by-default for network access."
+      },
+      {
+        "term": "Approval Center",
+        "def": "Portal queue where end-user software requests arrive for admin review and decision."
+      },
+      {
+        "term": "Unified Audit",
+        "def": "Real-time audit showing what was allowed or denied across endpoints — and why; the evidence layer for triage."
+      },
+      {
+        "term": "Testing Environment",
+        "def": "One-button cloud VDI sandbox launched from an approval request; logs AV flags, canary-file access, and registry/system changes."
+      },
+      {
+        "term": "Cyber Hero MDR",
+        "def": "24/7/365 US-based managed detection and response team; validates alerts, isolates hosts, acts on customer runbooks; ~60-second average response."
+      },
+      {
+        "term": "Assume breach",
+        "def": "Design and operate as if the attacker already has a foothold — least privilege, containment, and monitoring everywhere."
+      },
+      {
+        "term": "Living off the land",
+        "def": "Attacks that hijack trusted built-in tools (Word, PowerShell) instead of dropping malware — defeated by behavior containment, not signatures."
+      },
+      {
+        "term": "Change control",
+        "def": "Scoped, ticketed, tested changes with validation and rollback — emergency speed never cancels the process."
+      }
+    ],
+    "links": [
+      {
+        "label": "ThreatLocker Zero Trust platform explainer (official)",
+        "url": "https://www.threatlocker.com/blog/edr-xdr-vs-zero-trust-prevention",
+        "note": "EDR/XDR vs Zero Trust prevention — the deny-by-default argument in their own words."
+      },
+      {
+        "label": "ThreatLocker Bootcamp page (official)",
+        "url": "https://www.threatlocker.com/bootcamp",
+        "note": "Free six-week program: phases, format, and what completion leads to."
+      },
+      {
+        "label": "ThreatLocker Careers (official)",
+        "url": "https://www.threatlocker.com/company/careers",
+        "note": "Open roles and the hiring-event listing; roles are in-office in Orlando."
+      },
+      {
+        "label": "Elevation Control (official)",
+        "url": "https://www.threatlocker.com/secure-privileges-without-sacrificing-agility",
+        "note": "Just-in-time privilege without standing admin."
+      },
+      {
+        "label": "Storage Control (official)",
+        "url": "https://www.threatlocker.com/capabilities/external-storage-device-control",
+        "note": "USB/device policy by serial, user, file type, encryption."
+      },
+      {
+        "label": "Web Control (official)",
+        "url": "https://www.threatlocker.com/capabilities/web-content-control",
+        "note": "Agent-based DNS/URL filtering, including off-network."
+      },
+      {
+        "label": "Cyber Hero MDR (official)",
+        "url": "https://www.threatlocker.com/get-threat-response-in-minutes",
+        "note": "24/7/365 managed response positioning."
+      },
+      {
+        "label": "MDR capabilities (official)",
+        "url": "https://www.threatlocker.com/capabilities/managed-detection-and-response",
+        "note": "Detection and response capability detail."
+      },
+      {
+        "label": "NIST SP 800-207 — Zero Trust Architecture",
+        "url": "https://csrc.nist.gov/pubs/sp/800/207/final",
+        "note": "The canonical Zero Trust reference: tenets, deployment models, policy engine trust algorithm."
+      },
+      {
+        "label": "CISA Zero Trust Maturity Model",
+        "url": "https://www.cisa.gov/zero-trust-maturity-model",
+        "note": "Federal maturity steps across identity, devices, networks, applications, and data."
+      }
+    ],
+    "checklist": [
+      "Sixty-second company brief rehearsed out loud: year, city, philosophy, three products, one milestone",
+      "Two STAR stories ready: hardest technical problem; a frustrated customer or user",
+      "“Why ThreatLocker / why cybersecurity” answer tied to prevention and service, not slogans",
+      "Ringfencing explained in one plain-English sentence (the Word-on-a-leash version)",
+      "Elevation Control answer ready: just-in-time, per-app, time-boxed, ringfenced, logged",
+      "Triage loop memorized: scope → observe → hypothesize → smallest safe change → validate → explain",
+      "Three questions to ask them: team on-call shape, approval SLA expectations, what “most helpful” looks like on the team",
+      "Logistics: 1901 Summit Tower Blvd, Orlando FL; in-office role; ID and references ready"
+    ]
+  },
+  "behavioral": [
+    {
+      "prompt": "Tell me about the most technically difficult problem you have run into — a homelab, a broken environment, anything — and how you solved it.",
+      "framework": "STAR",
+      "points": [
+        "Pick ONE problem with a real evidence trail: the symptom, what you measured, the hypothesis you tested",
+        "Show the loop: scope, observe, hypothesize, smallest safe change, validate — interviewers score the method, not just the fix",
+        "Name the tools (VM build, networking, logs) and the lesson it taught you",
+        "Close with the result in concrete terms: what works now that did not before"
+      ],
+      "pitfalls": [
+        "Choosing a story with no real obstacle (“I Googled it” is not a story)",
+        "Skipping validation — saying it worked without proving it",
+        "Rambling past two minutes without reaching the result"
+      ]
+    },
+    {
+      "prompt": "Tell me about a time you dealt with a frustrated customer or user while something was broken.",
+      "framework": "STAR",
+      "points": [
+        "Lead with empathy and ownership: acknowledge the impact before the technical detail",
+        "Show translation: what you told them, in their language, plus the timeline you committed to",
+        "Show judgment: the narrow fix you chose and what you refused to do (e.g., disabling the control to clear the symptom)",
+        "Close with the relationship outcome, not just the technical one"
+      ],
+      "pitfalls": [
+        "Badmouthing the customer to sound decisive",
+        "Promising a timeline you could not keep",
+        "Framing the user as the problem rather than the situation"
+      ]
+    },
+    {
+      "prompt": "Why ThreatLocker, and why cybersecurity?",
+      "framework": "STAR",
+      "points": [
+        "Connect prevention to something concrete: a moment you saw detection arrive too late, or a system you hardened",
+        "Tie their model to your instincts: deny-by-default matches how you already think about trust",
+        "Show service orientation: the Cyber Hero culture rewards the 2 a.m. helper — give an example of being one",
+        "Name one forward-looking reason: Zero Trust, the MSP mission, or the bootcamp community investment"
+      ],
+      "pitfalls": [
+        "Generic flattery with no specifics about the company",
+        "Leading with compensation, title, or location convenience",
+        "Claiming expertise in products you have only read about — frame it as studied, not mastered"
+      ]
+    }
+  ],
+  "chat_topics": [
+    {
+      "id": "tl-interview",
+      "name": "ThreatLocker Interview Prep",
+      "key_points": [
+        "allowlisting",
+        "ringfencing",
+        "default-deny",
+        "cyber hero",
+        "zero trust tenets",
+        "STAR stories"
+      ],
+      "followups": [
+        "Can you give an example?",
+        "How would you explain that to a CFO?"
+      ]
+    },
+    {
+      "id": "tl-endpoint-ops",
+      "name": "Zero Trust Endpoint Operations",
+      "key_points": [
+        "default-deny",
+        "ringfencing dimensions",
+        "elevation control",
+        "storage control",
+        "network control",
+        "change control"
+      ],
+      "followups": [
+        "Walk me through the triage order.",
+        "When would you deny outright?"
+      ]
+    }
+  ]
+}

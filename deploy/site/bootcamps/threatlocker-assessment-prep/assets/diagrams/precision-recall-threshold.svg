@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="340" viewBox="0 0 900 340" role="img" aria-label="Precision recall threshold tradeoff curve">
+<rect width="900" height="340" fill="#0f172a"/>
+<text x="450" y="34" text-anchor="middle" fill="#f1f5f9" font-size="20" font-family="sans-serif" font-weight="bold">Precision / Recall: The Threshold Tradeoff</text>
+<g font-family="sans-serif" font-size="12" fill="#94a3b8">
+<line x1="90" y1="280" x2="820" y2="280" stroke="#475569" stroke-width="1.5"/>
+<line x1="90" y1="280" x2="90" y2="60" stroke="#475569" stroke-width="1.5"/>
+<text x="450" y="310" text-anchor="middle">recall --&gt; (catch more)</text>
+<text x="40" y="170" text-anchor="middle" transform="rotate(-90 40 170)">precision --&gt;</text>
+<path d="M110,110 C 260,120 420,170 780,260" fill="none" stroke="#38bdf8" stroke-width="3"/>
+<circle cx="180" cy="118" r="7" fill="#22c55e"/><text x="180" y="100" text-anchor="middle" fill="#22c55e">high threshold</text><text x="180" y="146" text-anchor="middle" fill="#64748b">precise, blind</text>
+<circle cx="430" cy="172" r="7" fill="#fbbf24"/><text x="430" y="154" text-anchor="middle" fill="#fbbf24">default 0.50</text><text x="430" y="200" text-anchor="middle" fill="#64748b">principled for no one</text>
+<circle cx="660" cy="232" r="7" fill="#f97316"/><text x="660" y="214" text-anchor="middle" fill="#f97316">cost-optimal</text><text x="660" y="260" text-anchor="middle" fill="#64748b">min expected loss</text>
+</g>
+<text x="450" y="332" text-anchor="middle" fill="#94a3b8" font-size="13" font-family="sans-serif">Every point prices a different error mix. Pick the point with economics, not habit.</text>
+</svg>

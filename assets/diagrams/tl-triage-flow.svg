@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="540" viewBox="0 0 900 540" role="img">
+  <title>Application-request triage flow: approve, deny, or ringfence</title>
+  <desc>A flowchart: a request arrives, evidence is gathered (signature, hash, context), a decision diamond branches to approve with a scoped rule, detonate in the Testing Environment then ringfence, or deny with documented evidence.</desc>
+  <style>
+    .h { font: 700 20px sans-serif; fill: #1a1a1a; }
+    .sub { font: 600 14px sans-serif; fill: #555; }
+    .t { font: 13px sans-serif; fill: #1a1a1a; }
+    .small { font: 12px sans-serif; fill: #3d3d3d; }
+    .box { fill: #ffffff; stroke: #1a1a1a; stroke-width: 2; }
+    .diamond { fill: #fffbe8; stroke: #8a5a00; stroke-width: 2; }
+    .good { fill: #e8f4ee; stroke: #0b7a4b; stroke-width: 2; }
+    .bad { fill: #fbeae9; stroke: #b3261e; stroke-width: 2; }
+    .arrow { stroke: #1a1a1a; stroke-width: 2; }
+  </style>
+
+  <text class="h" x="40" y="42">Triage flow: unknown application request</text>
+  <text class="sub" x="40" y="66">Decide from evidence — never from urgency</text>
+
+  <rect class="box" x="330" y="90" width="240" height="56" rx="10"/>
+  <text class="t" x="450" y="113" text-anchor="middle" font-weight="700">Request arrives</text>
+  <text class="small" x="450" y="133" text-anchor="middle">Approval Center queue</text>
+
+  <rect class="box" x="300" y="170" width="300" height="70" rx="10"/>
+  <text class="t" x="450" y="194" text-anchor="middle" font-weight="700">Gather evidence</text>
+  <text class="small" x="450" y="214" text-anchor="middle">signature · hash · first-seen · requester</text>
+  <text class="small" x="450" y="230" text-anchor="middle">context · Unified Audit history</text>
+
+  <polygon class="diamond" points="450,270 600,340 450,410 300,340"/>
+  <text class="t" x="450" y="334" text-anchor="middle" font-weight="700">What does the</text>
+  <text class="t" x="450" y="352" text-anchor="middle" font-weight="700">evidence say?</text>
+
+  <rect class="good" x="640" y="300" width="220" height="80" rx="10"/>
+  <text class="t" x="750" y="326" text-anchor="middle" font-weight="700">Trusted</text>
+  <text class="small" x="750" y="346" text-anchor="middle">Approve: scoped rule,</text>
+  <text class="small" x="750" y="362" text-anchor="middle">certificate over hash over path</text>
+
+  <rect class="box" x="640" y="410" width="220" height="80" rx="10"/>
+  <text class="t" x="750" y="436" text-anchor="middle" font-weight="700">Unknown</text>
+  <text class="small" x="750" y="456" text-anchor="middle">Detonate in Testing Environment,</text>
+  <text class="small" x="750" y="472" text-anchor="middle">then ringfence or approve narrowly</text>
+
+  <rect class="bad" x="40" y="300" width="220" height="80" rx="10"/>
+  <text class="t" x="150" y="326" text-anchor="middle" font-weight="700">Malicious</text>
+  <text class="small" x="150" y="346" text-anchor="middle">Deny with documented</text>
+  <text class="small" x="150" y="362" text-anchor="middle">evidence; escalate</text>
+
+  <line class="arrow" x1="450" y1="146" x2="450" y2="170"/>
+  <line class="arrow" x1="450" y1="240" x2="450" y2="270"/>
+  <line class="arrow" x1="600" y1="340" x2="640" y2="340"/>
+  <line class="arrow" x1="525" y1="410" x2="640" y2="450"/>
+  <line class="arrow" x1="300" y1="340" x2="260" y2="340"/>
+
+  <text class="small" x="330" y="500">Urgency never upgrades the rule: a rushed approval is how exceptions become incidents. Validate both paths — the good path works, the denied path stays denied.</text>
+</svg>

@@ -1,0 +1,1119 @@
+{
+ "domains": [
+  {
+   "id": "sec-graphs",
+   "key_points": [
+    "A graph is nodes (things: users, hosts, IPs, domains, hashes) joined by edges (relationships: logged into, resolved to, downloaded).",
+    "Link analysis predates computers: Euler's 1736 bridge puzzle founded graph theory; investigators charted criminal networks on paper long before software did it for them.",
+    "An attack graph maps every path an attacker could chain through your systems and flaws to reach your crown jewels.",
+    "Threat-intel knowledge graphs turn isolated indicators into connected campaigns by linking shared infrastructure."
+   ],
+   "name": "Security Graphs: Think Like an Attacker",
+   "summary": "Foundations of graph thinking in security: nodes, edges, and link analysis from Euler to modern security operations. Learn to read attack graphs, map kill chains, and pivot through threat-intel knowledge graphs the way an attacker maps your network."
+  },
+  {
+   "id": "graph-defense",
+   "key_points": [
+    "Patch priority comes from the graph, not the score alone: fix the flaw on the shortest path to what matters most.",
+    "User-asset graphs surface insider misuse as anomalous relationships, not anomalous single events.",
+    "Zero Trust is relationship enforcement: microsegmentation, relationship-based access control, and continuous verification all run on graphs.",
+    "During incidents, the graph is the blast-radius map and the war-room common picture."
+   ],
+   "name": "Graph-Powered Defense Operations",
+   "summary": "Operational use of security graphs: attack-path-driven patch prioritization, insider-threat detection via user-asset graphs, Zero Trust relationship policies, microsegmentation, blast-radius mapping for incident response, and graph-fed AI for predictive defense."
+  }
+ ],
+ "scenarios": [
+  {
+   "answer": 0,
+   "choices": [
+    "The edges are the relationships, and they are what make the graph useful: 'logged into' and 'resolved to' came from evidence and are where an attacker's movement shows up.",
+    "The nodes matter most; edges are just drawing lines to make the diagram pretty and can be ignored when prioritizing work.",
+    "A graph like this is equivalent to a spreadsheet with the same four rows; visualization adds no analytical value.",
+    "Direction on the edges is irrelevant: 'downloaded from' and 'downloaded to' mean the same thing for investigations."
+   ],
+   "evidence": [
+    [
+     "Graph excerpt",
+     "user:j.doe --logged into--> host:ws-07\nhost:ws-07 --downloaded--> file:invoice.exe\ndomain:evil.example.com --resolved to--> ip:93.184.x.x\nfile:invoice.exe --downloaded from--> domain:evil.example.com"
+    ],
+    [
+     "Analyst note",
+     "All four nodes are real things we observed. The labeled lines came from logs: auth logs, DNS logs, and the endpoint agent. Nothing here is decorative."
+    ]
+   ],
+   "hint": "Ask yourself which part of the diagram came from the logs, and which part an attacker would have to walk along.",
+   "id": "sg-graph-basics",
+   "mins": 6,
+   "objectives": [
+    "nodes",
+    "edges",
+    "graph vocabulary"
+   ],
+   "prompt": "Which statement about this graph is correct?",
+   "situation": "You are shadowing a SOC analyst who pulls up an investigation graph after a suspicious download alert. The graph shows a workstation node, a user node, a domain node, and a file-hash node, all joined by labeled lines. She asks you to sanity-check her interpretation of the model before she briefs the shift lead.",
+   "title": "Reading a security graph",
+   "why": "Edges carry the relationship semantics: who touched what, what resolved to what. Attackers move along relationships (logins, DNS resolutions, downloads), so the edges are the terrain you defend. Direction matters because 'A downloaded from B' and 'A sent data to B' are different facts. As Dr. Chase Cunningham puts it in Think Like an Attacker (2025): 'See the connections. Defend the future.'"
+  },
+  {
+   "answer": 1,
+   "choices": [
+    "Link analysis was invented for the War on Terror and has no earlier history in mathematics or law enforcement.",
+    "Euler 1736 (graph theory) -> 1970s paper link charts (Anacapa era) -> 1990s analyst software -> post-9/11 large-scale 'connecting the dots' -> commercial graph algorithms like PageRank running in parallel.",
+    "Graph theory began with PageRank in 1998; everything before that was unrelated military work.",
+    "Analyst's Notebook created link analysis in the 1990s; earlier investigators used only gut instinct and paper files."
+   ],
+   "evidence": [
+    [
+     "Timeline reference",
+     "1736: Euler models Konigsberg's land masses as nodes and bridges as links, founding graph theory.\n1975: Anacapa-style link charts give investigators a systematic paper method for mapping people, organizations, and properties.\n1990s: tools like Analyst's Notebook partially automate chart creation.\nPost-2001: 'connecting the dots' drives heavy investment in graph-based intelligence analysis."
+    ],
+    [
+     "Commercial echoes",
+     "Late 1990s: PageRank treats the web as a graph of pages and links.\n2000s: social platforms build businesses on the 'social graph' of people-to-people connections."
+    ]
+   ],
+   "hint": "Which option starts in the 1700s and includes both the paper-chart era and the post-2001 era?",
+   "id": "sg-link-analysis-history",
+   "mins": 5,
+   "objectives": [
+    "link analysis",
+    "history"
+   ],
+   "prompt": "Which lineage is historically accurate?",
+   "situation": "During a team lunch-and-learn you are asked to give the two-minute history of link analysis in security. A junior teammate thinks 'connecting the dots' started with modern SIEMs. You know the lineage runs deeper, from an 18th-century math puzzle to paper charts used by 1970s investigators to the post-2001 intelligence push.",
+   "title": "From Euler to the SOC",
+   "why": "The lineage is real and verifiable: Euler formalized node-link modeling in 1736 with the Konigsberg bridge puzzle; law-enforcement link charts (the Anacapa tradition, mid-1970s) systematized it on paper; analyst software mechanized it in the 1990s; and after 2001 the intelligence community scaled it up to find joined-up pictures in communications and financial records. Meanwhile PageRank and social graphs proved the same math at internet scale."
+  },
+  {
+   "answer": 1,
+   "choices": [
+    "Fix the printer branch first, since dead-end branches are the easiest wins.",
+    "Patch the VPN gateway's RCE flaw and force credential resets on the file server: these two nodes sit on the only complete path to the crown jewel, so breaking that path neutralizes the campaign.",
+    "Patch nothing and monitor, because a path of length 3 is too long for a real attacker to complete.",
+    "Focus only on the database: if the crown jewel is hardened, the rest of the graph does not matter."
+   ],
+   "evidence": [
+    [
+     "Attack graph",
+     "attacker(external) --exploit RCE--> vpn-gateway\nvpn-gateway --reuse weak creds--> file-server\nfile-server --query with svc account--> customer-db  [CROWN JEWEL]\nvpn-gateway --spoof--> printer  [dead end: no further edges]"
+    ],
+    [
+     "Window constraint",
+     "Two changes tonight: patching the gateway's RCE flaw counts as one, forcing credential resets on the file server counts as one, segmenting the gateway counts as one."
+    ]
+   ],
+   "hint": "Count the hops to the crown jewel on each branch. Which branch actually arrives anywhere?",
+   "id": "sg-attack-graph-read",
+   "mins": 7,
+   "objectives": [
+    "attack graphs",
+    "crown jewels",
+    "shortest path"
+   ],
+   "prompt": "What does the graph tell you to do?",
+   "situation": "Your vulnerability scanner finished overnight. The attack-graph tooling turned the results into a map: an external attacker node, a VPN gateway with an unpatched remote-code flaw, a file server with weak credentials, and your customer database. A printer also hangs off the gateway as a side branch. You have one maintenance window tonight and can only fix or isolate two things.",
+   "title": "Trace the path to the crown jewels",
+   "why": "The graph shows one complete chain (length 3) to the database and one dead-end branch. Breaking any edge on the complete chain kills the campaign, and the gateway is the choke point both branches share. This is path-based prioritization: you defend the path, not individual nodes in isolation."
+  },
+  {
+   "answer": 1,
+   "choices": [
+    "It does not: three mediums are still three mediums, and the graph is just a prettier dashboard.",
+    "The graph connects the three events through shared entities and time into one kill-chain subgraph (credential access -> lateral movement -> exfiltration), revealing a coordinated intrusion that the flat alert list hid.",
+    "The graph proves the alerts are false positives because no single alert reached high severity.",
+    "The graph shows the attacker skipped weaponization, which is impossible, so the data must be wrong."
+   ],
+   "evidence": [
+    [
+     "Alert chain",
+     "02:14 failed logins x40 -> host:ws-07\n02:26 successful admin login -> server:fileserver-02 (same source IP as the failed logins)\n02:41 large outbound transfer -> host:fileserver-02 to external ip (first-seen destination)"
+    ],
+    [
+     "MITRE mapping",
+     "failed logins -> credential access attempt\nadmin login on new host -> lateral movement\nlarge outbound transfer -> exfiltration (actions on objectives)"
+    ]
+   ],
+   "hint": "List what each alert is in kill-chain terms, then check whether they connect through shared hosts, IPs, and time.",
+   "id": "sg-kill-chain-subgraph",
+   "mins": 8,
+   "objectives": [
+    "kill chain",
+    "alert correlation",
+    "lateral movement"
+   ],
+   "prompt": "Why does the graph view change the assessment?",
+   "situation": "Your SOC queue shows three alerts from last night: a failed-login spike on a workstation, a successful admin login on a server ten minutes later, and an unusual outbound transfer from a database shortly after. Each alert alone scored medium. None of them fired a high-severity rule. You pull them into the security graph.",
+   "title": "Three alerts, one campaign",
+   "why": "Correlating disparate alerts onto one graph by shared entities and sequence is exactly how defenders reconstruct kill chains. Each event is weak alone; together they form the credential-theft -> lateral-movement -> exfiltration pattern. This is also why attack frameworks like MITRE ATT&CK can be codified as subgraphs: when that relationship pattern appears in live data, the system can flag the campaign, not just the events."
+  },
+  {
+   "answer": 1,
+   "choices": [
+    "None: the feed said unknown, so the domain must be treated as benign until the vendor updates.",
+    "The shared-infrastructure edge links the unknown domain to a known phishing campaign in one hop, letting you enrich the alert, block the IP, and hunt for other victims before the vendor feed ever catches up.",
+    "It proves the endpoint agent was wrong, because feeds are always more accurate than local graphs.",
+    "It proves attribution to a specific actor, which is all you need for the incident report."
+   ],
+   "evidence": [
+    [
+     "Knowledge graph pivot",
+     "domain:new-bad.example --resolved to--> ip:93.184.x.x\nip:93.184.x.x --also hosted--> domain:phish-finance-1.example [known campaign FIN-PHISH]\nip:93.184.x.x --also hosted--> domain:phish-finance-2.example [known campaign FIN-PHISH]"
+    ],
+    [
+     "Feed status",
+     "Vendor feed verdict on new-bad.example: UNKNOWN (no reputation)."
+    ]
+   ],
+   "hint": "What does the unknown domain share with things you already know are bad?",
+   "id": "sg-threat-intel-pivot",
+   "mins": 7,
+   "objectives": [
+    "threat intel graphs",
+    "pivoting",
+    "IOCs"
+   ],
+   "prompt": "What is the graph's investigative value here?",
+   "situation": "An endpoint agent flags a download from a domain your team has never seen. The threat-intel feed lists it as 'unknown'. Your knowledge graph, however, has that domain node already: it resolved to an IP last week that also hosted two domains tied to a known phishing campaign against finance teams.",
+   "title": "Pivoting the threat-intel graph",
+   "why": "Threat-intel knowledge graphs model indicators (IPs, domains, hashes) as nodes linked to campaigns and actors. Pivoting across those edges enriches alerts with context no single feed provides: the unknown domain inherits suspicion from its shared infrastructure. Attribution still needs more than one shared IP, but enrichment and hunting can start immediately."
+  },
+  {
+   "answer": 2,
+   "choices": [
+    "The database: it holds the data, so protecting it directly is always the top priority regardless of paths.",
+    "The print server: it is the cheapest to harden, maximizing return on limited budget.",
+    "The jump server: it is the highest-centrality node on the attack graph, a choke point on every path, so hardening it degrades all four attacker routes at once.",
+    "The web server: attackers always start at the web tier, so it must be the most important node."
+   ],
+   "evidence": [
+    [
+     "Centrality table",
+     "jump-srv-01: on 4 of 4 attack paths (betweenness: highest)\nweb-01: on 2 of 4 attack paths\ndb-01: on 3 of 4 paths but unreachable without passing jump-srv-01\nprinter-03: on 0 paths"
+    ],
+    [
+     "Constraint",
+     "Budget covers hardening exactly one system this quarter."
+    ]
+   ],
+   "hint": "If you could remove one node from the graph, which removal breaks the most paths to the crown jewels?",
+   "id": "sg-centrality-choke",
+   "mins": 6,
+   "objectives": [
+    "centrality",
+    "attack graphs",
+    "choke points"
+   ],
+   "prompt": "Which system do you harden, and what principle guides the choice?",
+   "situation": "The red team hands you their path analysis: four possible routes into the network, and you can only harden one system this quarter. The graph metrics are computed for every host. One host, a jump server, sits on all four attack paths; the web server sits on two; the print server sits on none.",
+   "title": "Centrality finds the choke point",
+   "why": "Centrality (here, betweenness on attack paths) measures how much attacker traffic must flow through a node. Hardening the choke point that every path shares is the highest-leverage single move: it degrades all four campaigns, while hardening an endpoint node only degrades the paths that include it. 'Think like the attacker' means finding the node they cannot avoid."
+  },
+  {
+   "answer": 1,
+   "choices": [
+    "Do nothing: the database is patched and hardened, so the exposure is acceptable.",
+    "Remove or correct the NAT rule immediately: the graph revealed that the crown jewel is one hop from the internet, and that edge is the risk regardless of the database's patch state.",
+    "Patch the database again to be safe, then schedule a firewall review for next quarter.",
+    "Delete the graph: if the CMDB does not show the rule, the rule probably does not exist."
+   ],
+   "evidence": [
+    [
+     "Graph excerpt",
+     "internet --NAT rule #447 (forgotten)--> db-01\ninternet --(no edge)--> web-01  [properly tiered, WAF in front]"
+    ],
+    [
+     "db-01 status",
+     "Patched, strong credentials, encrypted at rest. The NAT rule predates the current firewall admin and is undocumented."
+    ]
+   ],
+   "hint": "Which is easier for an attacker: cracking a hardened database, or walking through an open door?",
+   "id": "sg-one-hop",
+   "mins": 6,
+   "objectives": [
+    "asset visibility",
+    "attack surface",
+    "edges as risk"
+   ],
+   "prompt": "What is the right response?",
+   "situation": "You build your first living asset graph from scan data and firewall configs. Zooming into the database segment, you see something the CMDB never showed: the customer database is exactly one hop from the internet through a forgotten NAT rule on an old firewall. The database itself is fully patched and the passwords are strong.",
+   "title": "The one-hop problem",
+   "why": "This is the classic graph insight: a relationship (the forgotten NAT rule) creates risk that no amount of node hardening removes. The database can be perfectly patched and still be one exploit or misconfig away from the internet. Graphs make such one-hop exposures visible where tables and inventories hide them; the fix is to break the edge."
+  },
+  {
+   "answer": 1,
+   "choices": [
+    "Patch the 9.8 immediately: severity scores are the industry standard, and deviating from them creates audit risk.",
+    "Patch the 7.2 on the jump host first: it sits on the shortest path to the crown jewels, while the 9.8 sits on a dead-end branch. Path risk outranks raw score.",
+    "Patch both at once by skipping testing, since a 9.8 and a 7.2 both demand immediate action.",
+    "Patch neither and request budget for a new scanner, because conflicting scores mean the data is unreliable."
+   ],
+   "evidence": [
+    [
+     "Vulnerability graph",
+     "kiosk-04 (lobby): CVE score 9.8, RCE --no outgoing edges--> [dead end]\njump-srv-01: CVE score 7.2, privesc --2 hops--> finance-db  [CROWN JEWEL]\npath kiosk-04 -> crown jewel: NONE"
+    ],
+    [
+     "Scanner output",
+     "CVE-9.8: critical, remote code execution on kiosk-04 (isolated lobby VLAN).\nCVE-7.2: high, privilege escalation on jump-srv-01 (admin access to production)."
+    ]
+   ],
+   "hint": "Ask which vulnerability an attacker can actually walk from, toward something you care about.",
+   "id": "gd-patch-priority",
+   "mins": 7,
+   "objectives": [
+    "patch prioritization",
+    "attack paths",
+    "vulnerability graphs"
+   ],
+   "prompt": "With one patch window, which do you fix first?",
+   "situation": "Patch Tuesday lands two candidates. One is a 9.8 RCE on an isolated lobby kiosk; the other is a 7.2 privilege-escalation flaw on the jump server your admins use daily. Your CISO asks which gets tonight's single maintenance window. Your vulnerability graph shows the kiosk flaw has no outgoing edges to anything valuable, while the jump-server flaw is two hops from the finance database.",
+   "title": "Patch the path, not the score",
+   "why": "Vulnerability graphs beat flat CVE lists because risk is reachability times impact. A critical flaw with no path to anything valuable is a theoretical problem; a merely-high flaw on the shortest path to the crown jewels is an active campaign waiting to happen. This is the central operational lesson of attack-path analysis."
+  },
+  {
+   "answer": 2,
+   "choices": [
+    "A single alert is enough: any access outside a user's home department should trigger an account lockout.",
+    "The graph is overkill: a simple rule on the file server would have caught this just as well.",
+    "The user-asset graph flagged an anomalous relationship, a finance clerk suddenly connected to build servers she never touched, which no signature or single-event rule would catch.",
+    "The graph proves malicious intent, so the correct response is immediate termination of the employee."
+   ],
+   "evidence": [
+    [
+     "User-asset graph",
+     "user:f.clerk --12 months normal--> [HR systems, payroll, email]\nuser:f.clerk --NEW, last 3 days--> build-srv-01, build-srv-02 (source repos)\nbuild-srv-01 --unusual--> external:personal-cloud.example (uploads, 2 GB)"
+    ],
+    [
+     "Context",
+     "f.clerk has valid credentials, passed MFA, and no malware was found on her workstation. Role: payroll clerk, finance department."
+    ]
+   ],
+   "hint": "What is unusual here: any single event, or the pattern of relationships over time?",
+   "id": "gd-insider-threat",
+   "mins": 8,
+   "objectives": [
+    "insider threat",
+    "UEBA",
+    "anomaly detection"
+   ],
+   "prompt": "Why did the graph catch what traditional tooling missed?",
+   "situation": "Your UEBA dashboard flags a payroll clerk. Her credentials are valid, her MFA checks out, and no malware was found. But the user-asset graph shows something new: after twelve months of touching only HR and payroll systems, her node has sprouted edges to the source-code build servers, and one of those servers has started uploading to a personal cloud account.",
+   "title": "The finance clerk and the build servers",
+   "why": "Insiders already have legitimate credentials, so single events look normal. Graph-based anomaly detection compares the structure of relationships against history: a user node acquiring connections far outside its normal scope is the tell. This is UEBA-style detection done relationally, and the graph also gives investigators the consolidated view: which systems she touched, what flowed where, and whether it is malicious or benign."
+  },
+  {
+   "answer": 1,
+   "choices": [
+    "Evaluate only her role attribute, because relationship-based control is a marketing term for plain RBAC.",
+    "Traverse the graph: follow reports_to edges from the user to her manager, follow owns edges from the manager to projects, and check whether the requested resource's project node connects, all during business hours. The policy is a path query.",
+    "Ask the user to email her manager for approval, since graphs cannot enforce policy in real time.",
+    "Grant access because her credentials are valid: Zero Trust only applies to external users."
+   ],
+   "evidence": [
+    [
+     "Access request",
+     "user:a.reyes requests write access to repo:ledger-core at 14:20 local time\nuser:a.reyes --reports_to--> mgr:d.okafor\nmgr:d.okafor --owns--> project:ledger\nepo:ledger-core --belongs to--> project:ledger"
+    ],
+    [
+     "Policy",
+     "Allow write if the requester reports (directly or transitively) to a manager who owns the resource's project, and the request occurs during business hours."
+    ]
+   ],
+   "hint": "Turn the policy sentence into a walk: user -> manager -> project -> resource. Does the walk exist?",
+   "id": "gd-rebac",
+   "mins": 7,
+   "objectives": [
+    "ReBAC",
+    "Zero Trust",
+    "access control"
+   ],
+   "prompt": "How does the policy engine decide?",
+   "situation": "Your identity team is piloting relationship-based access control (ReBAC) for the engineering org. A developer requests write access to a ledger repository. The written policy says: allow if the requester reports to a manager who owns the resource's project, during business hours. The graph holds the org chart, project ownership, and repo membership as nodes and edges.",
+   "title": "ReBAC in action",
+   "why": "ReBAC policies are path queries on the identity graph: users, managers, projects, and resources are nodes; reports_to and owns are edges; evaluation is a traversal. A graph database answers this in one connected query, whereas a relational design would join many tables, and it re-evaluates continuously: if the manager changes or the device falls out of compliance, the trusted path disappears and sessions can be rechecked instantly."
+  },
+  {
+   "answer": 2,
+   "choices": [
+    "Document it and move on: application servers sometimes need to talk to HR systems during audits.",
+    "Add the edge to the approved baseline so the monitoring stops alerting.",
+    "Treat it as a misconfiguration or an intrusion in progress: block or quarantine the unexpected edge, investigate the app server, and only then decide whether the connection was ever legitimate.",
+    "Rebuild the entire network immediately: any anomaly means the whole design is compromised."
+   ],
+   "evidence": [
+    [
+     "Communication graph",
+     "app-srv-03 --expected--> db-orders, cache-01\napp-srv-03 --UNEXPECTED--> hr-payroll-db (first seen 03:12, no ticket, no change record)"
+    ],
+    [
+     "Baseline policy",
+     "Approved edges for app-srv-03: db-orders, cache-01. HR segment is a separate microsegment with no approved cross-segment edges."
+    ]
+   ],
+   "hint": "Under 'assume breach', what is the safest default treatment of an unapproved cross-segment edge?",
+   "id": "gd-microsegmentation",
+   "mins": 7,
+   "objectives": [
+    "microsegmentation",
+    "Zero Trust",
+    "network graphs"
+   ],
+   "prompt": "What is the right response?",
+   "situation": "You are rolling out microsegmentation built from the communication graph: clusters of systems that naturally talk to each other become segments, and the choke points between them get enforcement. At 03:12 the graph shows a new edge: an application server connecting to the HR payroll database, a different segment, with no change ticket and no approved baseline entry.",
+   "title": "The edge that should not exist",
+   "why": "Microsegmentation is graph enforcement: approved edges are allow-listed, everything else is suspect by default. Under Zero Trust's assume-breach posture, an unexpected cross-segment connection is treated as misconfiguration or malicious until proven otherwise: contain first, investigate, then either approve it as a legitimate new dependency or remove it. The graph makes the violation visible the moment it appears."
+  },
+  {
+   "answer": 0,
+   "choices": [
+    "Isolate the workstation first: it is the known-compromised node and the pivot point with edges into both the file server and dozens of alerts. Then work outward along the graph, re-imaging each connected node before it is cleared.",
+    "Reimage the file server first: it holds the most data, so it must be the attacker's real target.",
+    "Wipe everything at once: with lateral movement confirmed, surgical containment is too slow.",
+    "Monitor for another day: the graph is still incomplete, and acting on partial data risks disrupting the business."
+   ],
+   "evidence": [
+    [
+     "Incident graph",
+     "ws-07 [CONFIRMED compromised] --SMB--> fileserver-02\nws-07 --RDP--> ws-11, ws-14\nfileserver-02 --50 shared alerts--> malware-hash:H\nws-07: first-seen C2 beaconing 01:40"
+    ],
+    [
+     "War-room status",
+     "CFO on the bridge. Business impact of isolating ws-07: one user offline. Business impact of isolating fileserver-02: 400 users offline."
+    ]
+   ],
+   "hint": "Which node, if isolated, severs the most attack movement for the least business cost?",
+   "id": "gd-blast-radius",
+   "mins": 8,
+   "objectives": [
+    "incident response",
+    "blast radius",
+    "containment"
+   ],
+   "prompt": "What containment order does the graph support?",
+   "situation": "1:40 AM: the SOC confirms a workstation is beaconing to a command-and-control server. The incident graph shows the workstation with SMB and RDP edges into a file server and two more workstations, and the file server shares alerts with dozens of other hosts through a common malware hash. The CFO is on the bridge asking for the plan.",
+   "title": "Blast radius at 1:40 AM",
+   "why": "The graph is the blast-radius map: it shows how far the attacker likely got and which connections they leveraged. Isolating the confirmed pivot (the workstation) first severs the most movement for the least business cost, then responders clear outward along the edges. This is also why the war-room graph works as a shared picture: technical responders and the CFO see the same incident map, and every severed link documents the response in real time."
+  },
+  {
+   "answer": 2,
+   "choices": [
+    "It replaces analysts: once trained, the model can autonomously delete any node it labels malicious.",
+    "It is only useful for marketing: centrality is a vanity metric with no security meaning.",
+    "The model learns connection patterns across entities (which node and subgraph shapes look like attacks), and graph features like centrality become inputs that raise an alert's priority when it comes from a highly connected endpoint.",
+    "It proves that signature-based detection is obsolete and should be uninstalled."
+   ],
+   "evidence": [
+    [
+     "Model card",
+     "Graph neural network trained on labeled subgraphs of network/entity behavior.\nFeatures per node: degree, betweenness centrality, community membership.\nOutput: node/subgraph classified attack vs normal."
+    ],
+    [
+     "SOC observation",
+     "An alert from a highly central endpoint (connected to many critical systems) is now auto-prioritized; a structurally similar alert from an isolated kiosk is not."
+    ]
+   ],
+   "hint": "What can a model see in the graph's shape that a flat event stream cannot?",
+   "id": "gd-ai-graph",
+   "mins": 7,
+   "objectives": [
+    "graph ML",
+    "predictive defense",
+    "features"
+   ],
+   "prompt": "What does graph machine learning actually add to detection?",
+   "situation": "Your team is evaluating a graph-neural-network pilot. The vendor claims it 'learns attacks from the graph'. Your CISO asks you to explain, in plain terms, what the model does that your existing rules do not, and what role plain graph metrics play in it.",
+   "title": "AI meets the graph",
+   "why": "Graphs give machine learning rich structural features: centrality, community membership, and subgraph shapes. A graph neural network can learn which connection patterns look like attacks (for example, node classification of IP-port nodes into ATT&CK tactic sources), catching multi-entity correlations that rules miss. Plain graph metrics still earn their keep as features and as priority signals: an alert on a central node deserves more attention than the same alert on an isolated one."
+  },
+  {
+   "answer": 1,
+   "choices": [
+    "Buy the most expensive enterprise platform immediately: small teams need the biggest tool to compensate.",
+    "Patch everything equally: with limited staff, fairness across systems is the defensible strategy.",
+    "Run a mini attack-graph analysis to find the critical paths, then fix the small set of weaknesses that cuts the most risk; automate the recurring graph queries (stale access, unknown devices) that a larger team would do by hand.",
+    "Outsource everything and skip the analysis: graphs are an enterprise luxury."
+   ],
+   "evidence": [
+    [
+     "Environment",
+     "38 employees, one IT generalist, cloud SaaS plus two on-prem servers.\nAttack-graph pilot: 5 specific fixes (2 patches, 2 config changes, 1 segmentation rule) cut 80% of modeled paths to the customer database."
+    ],
+    [
+     "Constraint",
+     "Security budget: one afternoon a week. No dedicated SOC."
+    ]
+   ],
+   "hint": "If you can only fix five things, how do you pick the right five?",
+   "id": "gd-smb-multiplier",
+   "mins": 6,
+   "objectives": [
+    "SMB",
+    "prioritization",
+    "force multiplier"
+   ],
+   "prompt": "What is the highest-leverage first move?",
+   "situation": "You advise a 38-person company with one IT generalist and one afternoon a week for security. A quick attack-graph pilot reveals that five specific fixes would eliminate most modeled paths to their customer database, and routine questions like 'does any ex-employee still have access to anything?' are answerable with simple graph queries.",
+   "title": "The SMB force multiplier",
+   "why": "For resource-constrained teams, the graph is a force multiplier: it concentrates scarce effort on the choke points that matter instead of spreading it evenly, and it automates the correlation work a large SOC team would do manually. A single pane showing which systems connect to the infected node, or which five fixes cut most attack paths, is the difference between a contained incident and a breach that closes the business."
+  },
+  {
+   "answer": 3,
+   "choices": [
+    "Show the spreadsheet of all 4,000 vulnerabilities: executives love raw data.",
+    "Show nothing until the incident is fully resolved: partial information is worse than none.",
+    "Show the SIEM query syntax: technical credibility impresses leadership.",
+    "Show the graph: one picture of the affected nodes, the attacker's path, and the severed containment links. It communicates interconnected risk where a spreadsheet overwhelms."
+   ],
+   "evidence": [
+    [
+     "Audience",
+     "Board member: 'Explain the incident in two minutes. What is exposed, what did you do, and are we safe?'"
+    ],
+    [
+     "Materials available",
+     "Incident graph: compromised nodes marked, attack path highlighted, containment actions shown as severed edges. Raw alternative: 4,000-row vulnerability export."
+    ]
+   ],
+   "hint": "Which format lets a non-technical leader see the story in two minutes?",
+   "id": "gd-war-room",
+   "mins": 5,
+   "objectives": [
+    "communication",
+    "incident response",
+    "visualization"
+   ],
+   "prompt": "How do you brief the board?",
+   "situation": "The incident is contained. A board member asks for a two-minute explanation: what was exposed, what you did, and whether the company is safe. You have the live incident graph and a 4,000-row vulnerability spreadsheet. You have one slide.",
+   "title": "The war-room picture",
+   "why": "Graph visualization is a communication tool, not just an analyst tool: the same picture that guided containment briefs executives and cross-functional teams. Where a spreadsheet of vulnerabilities confuses, a network diagram tells the story of what was at risk, how the attacker moved, and what was cut. Engaging leadership with visual risk is also how security wins budget for the next segmentation project."
+  }
+ ],
+ "lessons": [
+  {
+   "concepts": [
+    "Node: any entity worth tracking (user, host, IP, domain, file hash, vulnerability).",
+    "Edge: a labeled relationship between two nodes (logged into, resolved to, downloaded).",
+    "Directed vs undirected edges: direction changes the meaning of an attack path.",
+    "Degree and centrality: how connected a node is; high-centrality nodes are attacker highways.",
+    "Security graph: the living model of your environment as nodes and edges.",
+    "Attack graph: the subset of the security graph showing how flaws chain into paths to targets."
+   ],
+   "domain_id": "sec-graphs",
+   "example": {
+    "code": "# a security graph written as an adjacency list\nws-07  --logged into-->  j.doe\nws-07  --downloaded-->    invoice.exe\ninvoice.exe --came from--> evil.example.com\n# degree(ws-07) = 2, degree(invoice.exe) = 2\n# remove the edge to evil.example.com -> the download path breaks",
+    "lang": "shell",
+    "walkthrough": "This tiny adjacency list is a complete security graph: four nodes, three labeled edges. The degree count shows which entities touch the most activity. Deleting one edge (blocking the domain) breaks the attacker's path without touching the user's workstation. That is the core move you will repeat at enterprise scale: edit the graph, not just the node."
+   },
+   "pitfalls": [
+    "Treating edges as decoration: the labels (logged into, resolved to) carry the investigative meaning, not the circles.",
+    "Confusing a graph with a chart: a chart displays data; a graph is a queryable model you can traverse, measure, and update.",
+    "Assuming all connections are equal: an edge from the internet to a database and an edge between two printers are different risks."
+   ],
+   "title": "Nodes, edges, and the attacker's map",
+   "try_it": "Sketch your home network as a graph on paper: router, laptop, phone, smart TV as nodes; draw and label every edge (Wi-Fi association, logins, shared drives). Circle the node with the highest degree and ask: if an attacker owned it, what could they reach in two hops?"
+  },
+  {
+   "concepts": [
+    "Crown jewels: the assets whose compromise hurts most (customer data, finance systems, source code).",
+    "Exploit edge: a vulnerability or misconfiguration that lets an attacker step from one node to the next.",
+    "Shortest attack path: the fewest edges between an attacker and a crown jewel.",
+    "Path-breaking remediation: removing or guarding one edge/node to sever every path through it.",
+    "ATT&CK as subgraphs: attacker tactics codified as relationship patterns to hunt for in live data."
+   ],
+   "domain_id": "sec-graphs",
+   "example": {
+    "code": "$ cat path-to-db.txt\nattacker --exploit RCE--> vpn-gateway\nvpn-gateway --weak creds--> file-server\nfile-server --svc account--> customer-db   [CROWN JEWEL]\n$ # path length: 3. choke point: vpn-gateway (every path crosses it)\n$ # action: patch gateway + rotate file-server creds -> path length: none",
+    "lang": "shell",
+    "walkthrough": "The text file lists one complete chain of three edges. The walkthrough shows how to read it: count the hops, find the node every path crosses (the choke point), then act on the choke point. Patching the gateway alone breaks this campaign; patching the database alone leaves the attacker two steps away on the next flaw."
+   },
+   "pitfalls": [
+    "Patching by CVSS score alone: a 9.8 with no path to anything valuable is less urgent than a 7.2 on the only road to the database.",
+    "Forgetting misconfigurations: an open firewall rule or a forgotten trust relationship is an exploit edge too.",
+    "Treating the graph as a one-time project: every scan, deploy, and config change redraws the map."
+   ],
+   "title": "Attack graphs: finding the path to the crown jewels",
+   "try_it": "Pick one 'crown jewel' in your lab (a file, a database, a VM). List every account and network path that can reach it in three hops or fewer. You have just built an attack graph by hand; now identify its choke point."
+  },
+  {
+   "concepts": [
+    "Never trust, always verify: every access decision is re-evaluated, even inside the network.",
+    "Microsegmentation: approved communication edges are allow-listed; unexpected edges are treated as hostile.",
+    "ReBAC (relationship-based access control): policies expressed as paths on the identity graph (reports_to, owns, member_of).",
+    "Continuous verification: device health, location, and behavior are edges that can change, revoking trust live.",
+    "Anomalous edge detection: a brand-new connection between nodes that never talked is the classic breach signal."
+   ],
+   "domain_id": "graph-defense",
+   "example": {
+    "code": "# relationship-based policy as a graph walk (pseudocode)\nuser:a.reyes -[:reports_to]-> mgr:d.okafor -[:owns]-> project:ledger\nrepo:ledger-core -[:belongs_to]-> project:ledger\n# ALLOW write iff a continuous path user -> ... -> resource exists\n# AND device node is marked compliant AND time is business hours\n# device falls out of compliance -> trusted edge removed -> session rechecked",
+    "lang": "shell",
+    "walkthrough": "The policy is a path query: does a continuous chain of relationships connect this user to this resource through the owning manager and project? Two more conditions ride on other edges: the device's compliance status and the time window. If the device node flips to non-compliant, the trusted edge disappears and the session is re-evaluated immediately. That is continuous verification made concrete."
+   },
+   "pitfalls": [
+    "Trusting yesterday's graph: a device that was compliant at 9 AM may not be at 2 PM; stale edges are how attackers persist.",
+    "Coarse network rules: allowing a whole subnet because one host needs access recreates the flat network Zero Trust was meant to kill.",
+    "Building the identity graph but never querying it: the graph only enforces Zero Trust when policy engines traverse it on every decision."
+   ],
+   "title": "Zero Trust runs on relationships",
+   "try_it": "Write one access rule for your own lab as a relationship sentence: 'Allow X to reach Y if ...' Then list the exact nodes and edges the rule would need (user, device, project, time). Could you evaluate it by walking a graph? Where would the walk fail today?"
+  }
+ ],
+ "labs": [
+  {
+   "checks": [
+    {
+     "command_pattern": "^nmap\\b",
+     "expect_contains": "Nmap scan report",
+     "hint": "Run a scan first: try `nmap scanme.interstitium.lab` and read the report header."
+    },
+    {
+     "command_pattern": "^ss\\b",
+     "expect_contains": "0.0.0.0:443",
+     "hint": "List listening sockets with `ss` and find the HTTPS listener."
+    }
+   ],
+   "id": "fsd-sg-lab-1",
+   "objective": "Enumerate the lab network's open services and record them as graph nodes for the attack-surface model.",
+   "steps": [
+    "Scan the lab target with nmap to discover which services are listening (each open port becomes a node in your attack-surface graph).",
+    "List the local listening sockets with ss and confirm which services this host exposes.",
+    "On paper or in your notes, draw the nodes: one per open port/service you found, labeled with the service name.",
+    "Identify which of those nodes an external attacker could reach first (the entry-point nodes)."
+   ],
+   "success_message": "Attack surface mapped: you turned scan output into the first nodes of a security graph.",
+   "title": "Enumerate the attack surface as graph nodes"
+  },
+  {
+   "checks": [
+    {
+     "command_pattern": "^dig\\b",
+     "expect_contains": ";; ANSWER SECTION:",
+     "hint": "Resolve the suspicious domain with `dig <domain>` and look for the ANSWER SECTION."
+    },
+    {
+     "command_pattern": "^curl\\b",
+     "expect_contains": "200 OK",
+     "hint": "Check the (simulated) intel feed with `curl <url>` and confirm a 200 OK."
+    }
+   ],
+   "id": "fsd-sg-lab-2",
+   "objective": "Pivot on a DNS relationship to enrich an unknown indicator, the core move of threat-intel knowledge graphs.",
+   "steps": [
+    "An endpoint flagged a download from an unknown domain. Resolve it with dig to find the IP node it connects to.",
+    "Record the relationship: domain --resolved to--> IP. This is the pivot edge.",
+    "Query the simulated threat-intel feed with curl to see whether that IP is associated with any known campaign.",
+    "Write down what the graph told you that the flat 'unknown' verdict did not."
+   ],
+   "success_message": "IOC enriched: you pivoted across a relationship edge the way a knowledge graph does.",
+   "title": "Resolve the IOC: pivot on DNS relationships"
+  },
+  {
+   "checks": [
+    {
+     "command_pattern": "^grep\\s+ERROR\\s+logs/app\\.log",
+     "expect_contains": "timeout after 30s",
+     "hint": "Search the app log for errors: `grep ERROR logs/app.log` and read the matched lines."
+    },
+    {
+     "command_pattern": "^systemctl\\s+status\\s+app",
+     "expect_contains": "active (running)",
+     "hint": "Check whether the app service is healthy: `systemctl status app`."
+    }
+   ],
+   "id": "fsd-sg-lab-3",
+   "objective": "Correlate log evidence into a timeline subgraph and confirm the service state before declaring an incident.",
+   "steps": [
+    "Grep the application log for ERROR lines to build the event timeline.",
+    "Check the service state with systemctl to confirm whether the app is up or down.",
+    "Connect the evidence: do the error timestamps and the service state tell one consistent story?",
+    "Decide: is this a dead service, a struggling-but-alive service, or normal noise? Write your verdict."
+   ],
+   "success_message": "Timeline correlated: you connected log events into a coherent incident picture.",
+   "title": "Correlate the timeline: grep the evidence"
+  }
+ ],
+ "simulations": [
+  {
+   "brief": "A red-team report lists five remediation actions after an attack-path review, but they arrived in random order. Drag them into the sequence a defender should actually follow: you cannot break paths you have not modeled, and you cannot confirm a fix you have not re-scanned.",
+   "debrief": "The correct sequence is build the graph, model the exploit edges, compute the paths to the crown jewels, break the choke points, then re-scan to prove the paths are gone. Skipping straight to patching is how teams fix the wrong flaw; skipping the re-scan is how they declare victory on a graph they never re-checked.",
+   "difficulty": 2,
+   "domain_id": "sec-graphs",
+   "id": "fsd-sg-sim-order-remediate",
+   "kind": "ordering",
+   "points": 10,
+   "steps": {
+    "context": "Order the attack-graph remediation workflow from first to last.",
+    "correct_order": [
+     1,
+     4,
+     3,
+     0,
+     2
+    ],
+    "items": [
+     "Patch or segment the choke points on the critical paths",
+     "Build the asset-and-access graph from inventory and scan data",
+     "Re-scan and re-run the graph to confirm the paths are broken",
+     "Compute the shortest attack paths to the crown-jewel systems",
+     "Model vulnerabilities and misconfigurations as exploit edges"
+    ]
+   },
+   "title": "Order the attack-graph remediation steps"
+  },
+  {
+   "brief": "It is 2 AM. Three hosts are showing linked alerts and you must decide the containment order. Each step gives you symptoms and evidence; pick the right next action before the attacker finishes moving.",
+   "debrief": "The right play was to confirm the shared credential evidence, isolate the pivot host that connected all three systems, then hunt the persistence mechanism on the shared edge before declaring the scope. Containment follows the graph outward from the confirmed pivot; guessing at endpoints wastes the window.",
+   "difficulty": 3,
+   "domain_id": "graph-defense",
+   "id": "fsd-sg-sim-lateral-trace",
+   "kind": "troubleshoot",
+   "points": 15,
+   "steps": [
+    {
+     "correct": 1,
+     "evidence": [
+      [
+       "auth log",
+       "02:14 failed logins x40 -> ws-07 from external IP"
+      ],
+      [
+       "auth log",
+       "02:26 successful login -> fileserver-02 as admin from ws-07's address"
+      ],
+      [
+       "graph",
+       "ws-07 --RDP--> fileserver-02 --SMB--> db-01"
+      ]
+     ],
+     "explain": "The shared source address and the graph edges tie the two logins together: this is credential access followed by lateral movement, not two separate events. Confirming the link shapes every later decision.",
+     "options": [
+      "Treat them as unrelated: failed logins happen all the time.",
+      "Correlate them: same source, graph-connected hosts, ten minutes apart — this is one campaign moving.",
+      "Escalate to the FBI immediately: any lateral movement is a federal matter.",
+      "Reboot ws-07: a reboot clears most malware."
+     ],
+     "symptom": "Failed-login spike on ws-07, then a successful admin login on fileserver-02 ten minutes later."
+    },
+    {
+     "correct": 0,
+     "evidence": [
+      [
+       "C2",
+       "01:40 beaconing from ws-07 to external IP (first-seen)"
+      ],
+      [
+       "graph",
+       "ws-07 is the only host with edges to both fileserver-02 and the C2 destination"
+      ],
+      [
+       "impact",
+       "isolating ws-07 takes one user offline; isolating fileserver-02 takes 400 offline"
+      ]
+     ],
+     "explain": "ws-07 is the confirmed pivot: it owns the C2 edge and connects to both downstream hosts. Isolating it severs the attacker's control and the most lateral paths at the lowest business cost.",
+     "options": [
+      "Isolate ws-07: it is the confirmed pivot with the C2 edge and the most downstream connections.",
+      "Isolate db-01: the database is the most valuable asset and must be protected first.",
+      "Isolate nothing yet: wait for the morning shift to avoid mistakes.",
+      "Block the C2 IP at the firewall and call it contained."
+     ],
+     "symptom": "One host is beaconing to a first-seen external IP. Two more hosts share its graph neighborhood."
+    },
+    {
+     "correct": 2,
+     "evidence": [
+      [
+       "persistence",
+       "scheduled task on fileserver-02 re-created 6 minutes after the first cleanup attempt"
+      ],
+      [
+       "graph",
+       "task --runs as--> svc_backup --has edge--> db-01 (unchanged by the first cleanup)"
+      ]
+     ],
+     "explain": "The attacker persists through a service account edge the first cleanup did not touch. The graph shows the persistence mechanism; removing the malware without removing the edge just invites re-infection.",
+     "options": [
+      "Declare the incident closed: the beaconing stopped.",
+      "Reimage all three hosts simultaneously: scorched earth is safest.",
+      "Hunt and remove the persistence edge (the scheduled task and the abused service account) before re-imaging, then verify no new edges appear.",
+      "Change all user passwords: that covers every persistence path."
+     ],
+     "symptom": "Beaconing stopped after cleanup, but a scheduled task reappeared on fileserver-02 six minutes later."
+    }
+   ],
+   "title": "Trace lateral movement across three hosts"
+  }
+ ],
+ "consoleSims": [
+  {
+   "brief": "Three alerts landed in the SIEM overnight. The console's link view shows two of them share a host, and the third shares a file hash with a known campaign. Work the queue the way the graph suggests: acknowledge the highest-severity alert, assign it, isolate the pivot host, then escalate.",
+   "console": "siem-dashboard",
+   "debrief": "You worked the alerts in graph order: the pivot host (shared by two alerts) got isolated before the standalone one, and the escalation carried the campaign context the link view revealed. In a real SOC, the graph is what turns three queue items into one incident.",
+   "difficulty": 2,
+   "domain_id": "graph-defense",
+   "id": "fsd-sg-console-triage",
+   "tasks": [
+    {
+     "hint": "The highest-severity alert is A-1042; acknowledge it first.",
+     "id": "t1",
+     "instruction": "Acknowledge the highest-severity alert, A-1042.",
+     "validate": {
+      "action": "acknowledge-alert",
+      "params": {
+       "id": "A-1042"
+      }
+     }
+    },
+    {
+     "hint": "Assign A-1042 to analyst m.rivera so the queue shows an owner.",
+     "id": "t2",
+     "instruction": "Assign alert A-1042 to analyst m.rivera.",
+     "validate": {
+      "action": "assign-alert",
+      "params": {
+       "analyst": "m.rivera",
+       "id": "A-1042"
+      }
+     }
+    },
+    {
+     "hint": "The link view shows ws-finance-07 tied to two of the three alerts: isolate that host.",
+     "id": "t3",
+     "instruction": "Isolate the pivot host ws-finance-07.",
+     "validate": {
+      "action": "isolate-host",
+      "params": {
+       "host": "ws-finance-07"
+      }
+     }
+    },
+    {
+     "hint": "Escalate A-1042 with the campaign context you found in the link view.",
+     "id": "t4",
+     "instruction": "Escalate alert A-1042 to incident status.",
+     "validate": {
+      "action": "escalate",
+      "params": {
+       "id": "A-1042"
+      }
+     }
+    }
+   ],
+   "title": "Triage graph-linked alerts"
+  }
+ ],
+ "terminalMissions": [
+  {
+   "brief": "A new environment has been handed to you with no documentation. Build the first layer of its security graph from the terminal: enumerate what is listening, resolve what names point where, and record the local network layout. Every fact you collect becomes a node or an edge.",
+   "checks": [
+    {
+     "command_pattern": "^nmap\\b",
+     "expect_contains": "Host is up",
+     "hint": "Scan the lab host: `nmap scanme.interstitium.lab` and confirm it is up."
+    },
+    {
+     "command_pattern": "^dig\\b",
+     "expect_contains": "93.184.216.34",
+     "hint": "Resolve a name with `dig example.com` and record the answer address."
+    },
+    {
+     "command_pattern": "^ss\\b",
+     "expect_contains": "LISTEN",
+     "hint": "List listening sockets with `ss`."
+    }
+   ],
+   "difficulty": 1,
+   "domain_id": "sec-graphs",
+   "id": "fsd-sg-mission-1",
+   "objectives": [
+    "Enumerate listening services with nmap",
+    "Resolve a domain name to its IP with dig",
+    "List local listening sockets with ss"
+   ],
+   "success_message": "First graph layer complete: services, names, and sockets recorded as nodes and edges.",
+   "title": "Map the unknown environment"
+  },
+  {
+   "brief": "An alert claims the app server is misbehaving. Before you touch anything, verify the facts like a responder: check the logs for errors, confirm the service state, and confirm the network path. Correlate the three into one verdict.",
+   "checks": [
+    {
+     "command_pattern": "^grep\\s+ERROR\\s+logs/app\\.log",
+     "expect_contains": "timeout after 30s",
+     "hint": "Search for errors: `grep ERROR logs/app.log`."
+    },
+    {
+     "command_pattern": "^systemctl\\s+status\\s+app",
+     "expect_contains": "active (running)",
+     "hint": "Check the service: `systemctl status app`."
+    },
+    {
+     "command_pattern": "^ip\\s+route",
+     "expect_contains": "default via 10.0.7.1",
+     "hint": "Confirm the network path: `ip route`."
+    }
+   ],
+   "difficulty": 2,
+   "domain_id": "graph-defense",
+   "id": "fsd-sg-mission-2",
+   "objectives": [
+    "Find error evidence in the app log with grep",
+    "Verify the app service state with systemctl",
+    "Confirm the default network route with ip route"
+   ],
+   "success_message": "Verdict reached: errors in the log, service still running, network path intact — a struggling app, not a dead host.",
+   "title": "Verify before you touch: the responder's triage"
+  }
+ ],
+ "media": [
+  {
+   "alt": "Diagram of four labeled nodes (user, host, file, domain, IP) joined by labeled directed edges such as logged into, downloaded, and resolved to, illustrating graph vocabulary.",
+   "caption": "Nodes are the things; edges are the relationships. Attackers move along the edges.",
+   "id": "sg-graph-vocabulary",
+   "kind": "diagram",
+   "lesson_ref": "c-sec-graphs",
+   "svg": "assets/diagrams/sg-graph-vocabulary.svg",
+   "title": "Graph vocabulary: nodes and edges"
+  },
+  {
+   "alt": "Attack graph with four nodes in a chain: external attacker to VPN gateway to file server to customer database, with a dead-end branch to a printer, showing the shortest path to the crown jewel.",
+   "caption": "The shortest path to the crown jewel is length 3. Break the choke point and the campaign dies.",
+   "id": "sg-attack-path",
+   "kind": "diagram",
+   "lesson_ref": "c-sec-graphs",
+   "svg": "assets/diagrams/sg-attack-path.svg",
+   "title": "Attack graph: shortest path to the crown jewels"
+  },
+  {
+   "alt": "Seven kill-chain stages as connected graph nodes: reconnaissance, weaponization, delivery, exploitation, installation, command and control, actions. Three alerts are annotated at delivery, installation, and command and control.",
+   "caption": "Three 'unrelated' alerts, one kill-chain subgraph. Correlate by shared entities, not by severity.",
+   "id": "sg-kill-chain",
+   "kind": "diagram",
+   "lesson_ref": "c-sec-graphs",
+   "svg": "assets/diagrams/sg-kill-chain.svg",
+   "title": "Kill chain as a graph"
+  },
+  {
+   "alt": "A policy engine at the center of a small graph evaluates an access request from a finance user on an untrusted laptop to an R and D code server. The request is denied because there is no prior relationship edge and the device is untrusted.",
+   "caption": "Valid credentials are not enough. The graph checks device trust, history, and relationships on every request.",
+   "id": "sg-zero-trust",
+   "kind": "diagram",
+   "lesson_ref": "c-graph-defense",
+   "svg": "assets/diagrams/sg-zero-trust.svg",
+   "title": "Zero Trust runs on relationships"
+  }
+ ],
+ "resources": {
+  "cheatsheet": {
+   "sections": [
+    {
+     "heading": "Graph vocabulary",
+     "items": [
+      "node — any entity tracked in the model (user, host, IP, domain, file hash, vulnerability)",
+      "edge — a labeled relationship between two nodes (logged into, resolved to, downloaded)",
+      "degree — number of edges on a node; high-degree nodes are attacker highways",
+      "centrality — how much traffic or how many paths flow through a node",
+      "directed edge — a relationship with a direction (A downloaded FROM B)",
+      "security graph — the living model of your whole environment as nodes and edges",
+      "attack graph — the subgraph of exploitable paths to your targets",
+      "knowledge graph — threat-intel indicators linked to campaigns and actors"
+     ]
+    },
+    {
+     "heading": "Attack-graph playbook",
+     "items": [
+      "inventory first — you cannot graph what you have not discovered",
+      "model flaws AND misconfigs as exploit edges",
+      "compute shortest paths to the crown jewels",
+      "find the choke point (highest betweenness on those paths)",
+      "break the path: patch, segment, or remove the edge",
+      "re-scan and re-run the graph to prove the path is gone",
+      "never trust yesterday's graph — redeployments redraw the map"
+     ]
+    },
+    {
+     "heading": "Zero Trust + graphs",
+     "items": [
+      "never trust, always verify — re-evaluate every access decision",
+      "assume breach — treat unexpected edges as hostile until proven otherwise",
+      "microsegmentation — allow-list approved edges, alert on new ones",
+      "ReBAC — policies are path queries on the identity graph",
+      "continuous verification — device/location/behavior edges change, trust follows",
+      "anomalous edge — a first-seen connection between strangers is the classic signal"
+     ]
+    }
+   ],
+   "title": "Security Graphs — operator cheatsheet"
+  },
+  "glossary": [
+   {
+    "def": "A node in an attack graph representing a system or weakness, connected by edges that represent steps an attacker could take between them.",
+    "term": "attack graph"
+   },
+   {
+    "def": "How central a node is to paths through the graph (for example, betweenness: how many shortest paths cross it).",
+    "term": "centrality"
+   },
+   {
+    "def": "The most valuable assets in the environment (customer data, finance systems, source code): what attack paths are measured against.",
+    "term": "crown jewels"
+   },
+   {
+    "def": "A labeled connection between two nodes, representing a relationship such as 'logged into' or 'resolved to'.",
+    "term": "edge"
+   },
+   {
+    "def": "A graph of threat indicators (IPs, domains, hashes) linked to campaigns, actors, and each other through shared infrastructure.",
+    "term": "knowledge graph"
+   },
+   {
+    "def": "The practice of mapping relationships in data to reveal hidden associations; rooted in Euler's 1736 graph theory, 1970s paper link charts, and post-2001 intelligence work.",
+    "term": "link analysis"
+   },
+   {
+    "def": "A segment of the network so small that its allowed communications can be enumerated as a graph of approved edges.",
+    "term": "microsegmentation"
+   },
+   {
+    "def": "An entity in the graph: a user, host, IP address, domain, file, or vulnerability.",
+    "term": "node"
+   },
+   {
+    "def": "Access control where policy is evaluated by traversing relationships on a graph (for example: user reports_to manager who owns the resource's project).",
+    "term": "ReBAC"
+   },
+   {
+    "def": "Zero Trust posture that operates as if an attacker may already be inside, treating unexpected connections as hostile until proven otherwise.",
+    "term": "assume breach"
+   },
+   {
+    "def": "A machine-learning model that operates directly on graph structure to classify nodes or subgraphs, for example labeling attack vs normal behavior.",
+    "term": "graph neural network (GNN)"
+   },
+   {
+    "def": "Monitoring user and entity behavior by modeling their normal relationship patterns and flagging structural anomalies.",
+    "term": "UEBA"
+   }
+  ],
+  "links": [
+   {
+    "label": "MITRE ATT&CK",
+    "note": "The adversary-tactics framework; codify its tactic chains as subgraphs to hunt for in your security graph.",
+    "url": "https://attack.mitre.org/"
+   },
+   {
+    "label": "NIST SP 800-207 — Zero Trust Architecture",
+    "note": "The canonical Zero Trust reference: never trust, always verify; continuous verification; least privilege.",
+    "url": "https://csrc.nist.gov/pubs/sp/800/207/final"
+   },
+   {
+    "label": "CISA Zero Trust Maturity Model",
+    "note": "CISA's model for measuring Zero Trust progress across identity, devices, networks, applications, and data.",
+    "url": "https://www.cisa.gov/zero-trust-maturity-model"
+   },
+   {
+    "label": "CISA — Cybersecurity and Infrastructure Security Agency",
+    "note": "US government advisories, alerts, and guidance frequently referenced in threat-intel work.",
+    "url": "https://www.cisa.gov/"
+   },
+   {
+    "label": "Neo4j getting started",
+    "note": "A widely used graph database; the book's call to action suggests piloting graph queries on exported security data with tools like this.",
+    "url": "https://neo4j.com/docs/getting-started/"
+   }
+  ],
+  "checklist": [
+   "Define your crown jewels before you model anything.",
+   "Build the asset-and-access graph from live sources (scans, configs, identity), not from the CMDB alone.",
+   "Model vulnerabilities AND misconfigurations as exploit edges.",
+   "Compute shortest attack paths to each crown jewel; name the choke points.",
+   "Prioritize remediation by path risk, not by raw severity score.",
+   "Express at least one access policy as a relationship path (ReBAC pilot).",
+   "Baseline approved communication edges per segment; alert on first-seen edges.",
+   "Brief the next incident or risk review with the graph, not a spreadsheet."
+  ]
+ },
+ "behavioral": [
+  {
+   "framework": "STAR",
+   "pitfalls": [
+    "Staying vague ('I analyzed the data') instead of naming what you connected.",
+    "Skipping your own role: what did YOU see that others missed?",
+    "No outcome: what changed because you joined the dots?"
+   ],
+   "points": [
+    "The scattered signals and why nobody had connected them yet",
+    "The specific links you drew between them (shared host, time, infrastructure)",
+    "What the bigger picture turned out to be and what action it drove",
+    "What the experience taught you about investigating"
+   ],
+   "prompt": "Tell me about a time you connected scattered clues into a bigger picture that others had missed."
+  },
+  {
+   "framework": "STAR",
+   "pitfalls": [
+    "Claiming you fixed everything: credibility comes from trade-offs, not heroics.",
+    "Hiding the constraint: the limitation is what makes the prioritization story real.",
+    "No metric: 'better' needs a before-and-after."
+   ],
+   "points": [
+    "The constraint (time, budget, staff) and the size of the backlog",
+    "How you decided what mattered most (what was reachable, what was critical)",
+    "What you did first and what you deliberately deferred",
+    "The measurable result of the prioritization"
+   ],
+   "prompt": "Describe a time you had to prioritize risks or fixes with limited time or resources. How did you decide what came first?"
+  },
+  {
+   "framework": "STAR",
+   "pitfalls": [
+    "Reciting jargon to a non-technical audience and calling it communication.",
+    "Skipping the audience's reaction: did they actually understand and act?",
+    "Making yourself the hero instead of the translator."
+   ],
+   "points": [
+    "The technical finding and why it mattered",
+    "Who the audience was and what they cared about",
+    "How you reframed it (a picture, an analogy, a story)",
+    "What decision or action the audience took because they understood"
+   ],
+   "prompt": "Tell me about a time you explained a complex technical finding to a non-technical audience and it changed a decision."
+  }
+ ],
+ "chat_topics": [
+  {
+   "followups": [
+    "Can you walk through an example?",
+    "How does this change patch prioritization?",
+    "What is the difference between a security graph and an attack graph?"
+   ],
+   "id": "sec-graphs",
+   "key_points": [
+    "nodes",
+    "edges",
+    "attack graphs",
+    "kill chain",
+    "link analysis",
+    "threat intel graphs"
+   ],
+   "name": "Security Graphs: Think Like an Attacker"
+  },
+  {
+   "followups": [
+    "How do graphs change patch prioritization?",
+    "What is ReBAC and how is it different from RBAC?",
+    "How would a small team start with graphs?"
+   ],
+   "id": "graph-defense",
+   "key_points": [
+    "attack-path analysis",
+    "insider threat",
+    "vulnerability graphs",
+    "Zero Trust",
+    "microsegmentation",
+    "blast radius",
+    "graph ML"
+   ],
+   "name": "Graph-Powered Defense Operations"
+  }
+ ]
+}

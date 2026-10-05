@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="400" viewBox="0 0 700 400" role="img">
+  <title>Zero Trust access decision on a relationship graph</title>
+  <desc>A policy engine node at the center evaluates an access request. A finance user on an unknown personal laptop requests the R and D code server. Edges show the user has no prior connection to the server and the device is untrusted, so the policy engine denies access with a red denied badge.</desc>
+  <rect x="0" y="0" width="700" height="400" fill="#f7f9fc"/>
+  <text x="24" y="34" font-family="sans-serif" font-size="18" font-weight="bold" fill="#1a2333">Zero Trust runs on relationships: one access decision</text>
+  <defs>
+    <marker id="szt-arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#334155"/>
+    </marker>
+    <marker id="szt-arrow-red" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#b91c1c"/>
+    </marker>
+  </defs>
+  <line x1="180" y1="150" x2="300" y2="190" stroke="#334155" stroke-width="2" marker-end="url(#szt-arrow)"/>
+  <text x="215" y="160" font-family="sans-serif" font-size="11" fill="#334155">requests</text>
+  <line x1="180" y1="300" x2="300" y2="230" stroke="#334155" stroke-width="2" marker-end="url(#szt-arrow)"/>
+  <text x="215" y="290" font-family="sans-serif" font-size="11" fill="#334155">uses device</text>
+  <line x1="520" y1="150" x2="400" y2="190" stroke="#b91c1c" stroke-width="2" stroke-dasharray="7,4" marker-end="url(#szt-arrow-red)"/>
+  <text x="470" y="160" font-family="sans-serif" font-size="11" fill="#b91c1c">no prior edge</text>
+  <circle cx="130" cy="150" r="50" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"/>
+  <text x="130" y="146" font-family="sans-serif" font-size="13" font-weight="bold" fill="#1e293b" text-anchor="middle">user</text>
+  <text x="130" y="163" font-family="sans-serif" font-size="11" fill="#475569" text-anchor="middle">finance dept</text>
+  <circle cx="130" cy="310" r="44" fill="#fee2e2" stroke="#b91c1c" stroke-width="2"/>
+  <text x="130" y="306" font-family="sans-serif" font-size="13" font-weight="bold" fill="#1e293b" text-anchor="middle">device</text>
+  <text x="130" y="323" font-family="sans-serif" font-size="11" fill="#b91c1c" text-anchor="middle">untrusted laptop</text>
+  <rect x="300" y="170" width="100" height="70" rx="10" fill="#0f172a"/>
+  <text x="350" y="198" font-family="sans-serif" font-size="13" font-weight="bold" fill="#f8fafc" text-anchor="middle">policy</text>
+  <text x="350" y="216" font-family="sans-serif" font-size="13" font-weight="bold" fill="#f8fafc" text-anchor="middle">engine</text>
+  <circle cx="570" cy="150" r="50" fill="#dcfce7" stroke="#15803d" stroke-width="2"/>
+  <text x="570" y="146" font-family="sans-serif" font-size="13" font-weight="bold" fill="#1e293b" text-anchor="middle">resource</text>
+  <text x="570" y="163" font-family="sans-serif" font-size="11" fill="#475569" text-anchor="middle">R&amp;D code server</text>
+  <rect x="300" y="280" width="180" height="60" rx="10" fill="#b91c1c"/>
+  <text x="390" y="305" font-family="sans-serif" font-size="15" font-weight="bold" fill="#ffffff" text-anchor="middle">DENIED</text>
+  <text x="390" y="325" font-family="sans-serif" font-size="11" fill="#fecaca" text-anchor="middle">step-up auth required</text>
+  <text x="24" y="372" font-family="sans-serif" font-size="13" fill="#475569">Valid credentials are not enough: the graph checks device trust, history, and relationships every time.</text>
+</svg>

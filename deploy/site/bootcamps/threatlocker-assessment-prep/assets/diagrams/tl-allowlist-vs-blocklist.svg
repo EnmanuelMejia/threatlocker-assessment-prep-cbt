@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="430" viewBox="0 0 900 430" role="img">
+  <title>Allowlisting vs blocklisting: default-deny vs default-allow</title>
+  <desc>Two side-by-side panels. Left: default-deny allowlisting — known-good apps pass the gate, unknown files are stopped. Right: default-allow blocklisting — unknown files run until recognized as malicious.</desc>
+  <style>
+    .h { font: 700 20px sans-serif; fill: #1a1a1a; }
+    .sub { font: 600 14px sans-serif; fill: #555; }
+    .t { font: 13px sans-serif; fill: #222; }
+    .small { font: 12px sans-serif; fill: #444; }
+    .ok { fill: #0b7a4b; } .no { fill: #b3261e; } .warn { fill: #8a5a00; }
+    .panel { fill: #f7f9f8; stroke: #c9d4cf; stroke-width: 2; rx: 14; }
+    .gate { fill: #ffffff; stroke: #1a1a1a; stroke-width: 2.5; }
+    .file { fill: #ffffff; stroke: #555; stroke-width: 1.5; }
+  </style>
+
+  <!-- LEFT: default-deny -->
+  <rect class="panel" x="20" y="20" width="420" height="390"/>
+  <text class="h" x="40" y="58">Default-deny</text>
+  <text class="sub" x="40" y="82">Allowlisting — "is it explicitly trusted?"</text>
+
+  <rect class="file" x="40" y="110" width="120" height="34" rx="6"/>
+  <text class="t" x="52" y="132">payroll.exe ✓ known</text>
+  <rect class="file" x="40" y="156" width="150" height="34" rx="6"/>
+  <text class="t" x="52" y="178">ransomware.exe ? unknown</text>
+
+  <rect class="gate" x="230" y="105" width="90" height="90" rx="10"/>
+  <text class="t" x="242" y="140" font-weight="700">GATE</text>
+  <text class="small" x="242" y="160">trusted</text>
+  <text class="small" x="248" y="178">list?</text>
+
+  <text class="ok t" x="345" y="132" font-weight="700">✔ RUNS</text>
+  <text class="no t" x="345" y="182" font-weight="700">✘ DENIED</text>
+  <text class="small" x="345" y="200">no signature needed</text>
+
+  <text class="small" x="40" y="250">Unknown code never executes.</text>
+  <text class="small" x="40" y="272">Zero-days, fileless, novel malware: stopped</text>
+  <text class="small" x="40" y="294">without waiting for detection.</text>
+  <text class="small" x="40" y="330">Cost: every legit new app needs an</text>
+  <text class="small" x="40" y="352">approval path (Learning Mode, Approval Center).</text>
+
+  <!-- RIGHT: default-allow -->
+  <rect class="panel" x="460" y="20" width="420" height="390"/>
+  <text class="h" x="480" y="58">Default-allow</text>
+  <text class="sub" x="480" y="82">Blocklisting — "is it recognized as bad?"</text>
+
+  <rect class="file" x="480" y="110" width="120" height="34" rx="6"/>
+  <text class="t" x="492" y="132">payroll.exe ✓ known</text>
+  <rect class="file" x="480" y="156" width="150" height="34" rx="6"/>
+  <text class="t" x="492" y="178">ransomware.exe ? unknown</text>
+
+  <rect class="gate" x="670" y="105" width="90" height="90" rx="10"/>
+  <text class="t" x="682" y="140" font-weight="700">GATE</text>
+  <text class="small" x="682" y="160">known-</text>
+  <text class="small" x="688" y="178">bad?</text>
+
+  <text class="ok t" x="785" y="132" font-weight="700">✔ RUNS</text>
+  <text class="warn t" x="785" y="182" font-weight="700">✔ RUNS…</text>
+  <text class="small" x="785" y="200">until a signature exists</text>
+
+  <text class="small" x="480" y="250">Unknown code runs until proven malicious.</text>
+  <text class="small" x="480" y="272">Zero-days live in the gap between</text>
+  <text class="small" x="480" y="294">first execution and first signature.</text>
+  <text class="small" x="480" y="330">Enumerating badness can never be</text>
+  <text class="small" x="480" y="352">complete; the known-good list is finite.</text>
+
+  <line x1="450" y1="20" x2="450" y2="410" stroke="#c9d4cf" stroke-width="2" stroke-dasharray="6 5"/>
+</svg>

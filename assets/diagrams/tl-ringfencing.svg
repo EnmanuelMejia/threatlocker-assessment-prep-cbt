@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="470" viewBox="0 0 900 470" role="img">
+  <title>Ringfencing: four leashes on an allowed application</title>
+  <desc>A central box for an approved app (Word) inside a dashed containment ring. Four arrows show restriction dimensions: app-to-app (PowerShell spawn blocked), file access (documents allowed), registry (credential store blocked), network (internet blocked).</desc>
+  <style>
+    .h { font: 700 20px sans-serif; fill: #1a1a1a; }
+    .sub { font: 600 14px sans-serif; fill: #555; }
+    .t { font: 13px sans-serif; fill: #222; }
+    .small { font: 12px sans-serif; fill: #444; }
+    .ok { fill: #0b7a4b; } .no { fill: #b3261e; }
+    .app { fill: #e8f4ee; stroke: #0b7a4b; stroke-width: 2.5; }
+    .ring { fill: none; stroke: #0b7a4b; stroke-width: 3; stroke-dasharray: 12 8; }
+    .target { fill: #ffffff; stroke: #555; stroke-width: 1.5; }
+    .blocked { stroke: #b3261e; stroke-width: 2.5; }
+    .allowed { stroke: #0b7a4b; stroke-width: 2.5; }
+  </style>
+
+  <text class="h" x="40" y="45">Ringfencing: the app is allowed — its behavior is leashed</text>
+  <text class="sub" x="40" y="70">Application control asks "may it run?" · Ringfencing asks "what may it do?"</text>
+
+  <ellipse class="ring" cx="450" cy="270" rx="185" ry="150"/>
+
+  <rect class="app" x="370" y="235" width="160" height="70" rx="10"/>
+  <text class="t" x="450" y="262" text-anchor="middle" font-weight="700">WINWORD.EXE</text>
+  <text class="small" x="450" y="284" text-anchor="middle">approved · signed · trusted</text>
+
+  <!-- app-to-app: blocked -->
+  <rect class="target" x="660" y="120" width="190" height="52" rx="8"/>
+  <text class="t" x="755" y="142" text-anchor="middle" font-weight="700">powershell.exe</text>
+  <text class="small" x="755" y="160" text-anchor="middle">app-to-app launch</text>
+  <line class="blocked" x1="600" y1="210" x2="680" y2="150" marker-end="url(#x)"/>
+  <text class="no t" x="640" y="205" font-weight="700">✘ denied</text>
+
+  <!-- file: allowed -->
+  <rect class="target" x="660" y="380" width="190" height="52" rx="8"/>
+  <text class="t" x="755" y="402" text-anchor="middle" font-weight="700">report.docx</text>
+  <text class="small" x="755" y="420" text-anchor="middle">file access</text>
+  <line class="allowed" x1="600" y1="330" x2="680" y2="390"/>
+  <text class="ok t" x="640" y="385" font-weight="700">✔ allowed</text>
+
+  <!-- registry: blocked -->
+  <rect class="target" x="50" y="120" width="200" height="52" rx="8"/>
+  <text class="t" x="150" y="142" text-anchor="middle" font-weight="700">credential store</text>
+  <text class="small" x="150" y="160" text-anchor="middle">registry access</text>
+  <line class="blocked" x1="300" y1="210" x2="220" y2="150"/>
+  <text class="no t" x="215" y="205" font-weight="700">✘ denied</text>
+
+  <!-- network: blocked -->
+  <rect class="target" x="50" y="380" width="200" height="52" rx="8"/>
+  <text class="t" x="150" y="402" text-anchor="middle" font-weight="700">external IP</text>
+  <text class="small" x="150" y="420" text-anchor="middle">network access</text>
+  <line class="blocked" x1="300" y1="330" x2="220" y2="390"/>
+  <text class="no t" x="215" y="385" font-weight="700">✘ denied</text>
+
+  <text class="small" x="40" y="455">Living-off-the-land attacks hijack trusted apps — Ringfencing assumes the app is already compromised and contains what it can do.</text>
+  <defs>
+    <marker id="x" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,6" stroke="#b3261e" stroke-width="2"/>
+    </marker>
+  </defs>
+</svg>

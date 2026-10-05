@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="300" viewBox="0 0 900 300" role="img">
+  <title>ML detection pipeline: telemetry to triage</title>
+  <desc>Flow diagram with five stages. Telemetry sources (EDR, DNS, auth logs) feed feature extraction (login velocity, domain entropy, rare processes), which feeds an ML model (supervised plus anomaly detection), which outputs scored alerts from 0 to 100, which an analyst triages top-down. A feedback arrow returns from the analyst to the model labeled retrain and feedback.</desc>
+  <rect x="0" y="0" width="900" height="300" fill="#f8fafc"/>
+  <text x="450" y="28" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="bold" fill="#1a2332">ML detection pipeline: telemetry to triage</text>
+  <g font-family="sans-serif" text-anchor="middle">
+    <rect x="20" y="80" width="140" height="120" rx="10" fill="#1a2332"/>
+    <text x="90" y="112" font-size="14" font-weight="bold" fill="#ffffff">Telemetry</text>
+    <text x="90" y="134" font-size="12" fill="#cbd5e1">EDR events</text>
+    <text x="90" y="152" font-size="12" fill="#cbd5e1">DNS logs</text>
+    <text x="90" y="170" font-size="12" fill="#cbd5e1">Auth logs</text>
+    <rect x="200" y="80" width="140" height="120" rx="10" fill="#0e7490"/>
+    <text x="270" y="112" font-size="14" font-weight="bold" fill="#ffffff">Feature extraction</text>
+    <text x="270" y="134" font-size="12" fill="#e0f2fe">Login velocity</text>
+    <text x="270" y="152" font-size="12" fill="#e0f2fe">Domain entropy</text>
+    <text x="270" y="170" font-size="12" fill="#e0f2fe">Rare processes</text>
+    <rect x="380" y="80" width="140" height="120" rx="10" fill="#7c3aed"/>
+    <text x="450" y="112" font-size="14" font-weight="bold" fill="#ffffff">ML model</text>
+    <text x="450" y="134" font-size="12" fill="#ede9fe">Supervised</text>
+    <text x="450" y="152" font-size="12" fill="#ede9fe">Anomaly detection</text>
+    <text x="450" y="170" font-size="12" fill="#ede9fe">UEBA baselines</text>
+    <rect x="560" y="80" width="140" height="120" rx="10" fill="#f59e0b"/>
+    <text x="630" y="112" font-size="14" font-weight="bold" fill="#1a2332">Scored alerts</text>
+    <text x="630" y="134" font-size="12" fill="#1a2332">Risk score 0-100</text>
+    <text x="630" y="152" font-size="12" fill="#1a2332">Precision / recall</text>
+    <text x="630" y="170" font-size="12" fill="#1a2332">tuned by threshold</text>
+    <rect x="740" y="80" width="140" height="120" rx="10" fill="#15803d"/>
+    <text x="810" y="112" font-size="14" font-weight="bold" fill="#ffffff">Analyst triage</text>
+    <text x="810" y="134" font-size="12" fill="#dcfce7">Top-down by score</text>
+    <text x="810" y="152" font-size="12" fill="#dcfce7">Verify, contain,</text>
+    <text x="810" y="170" font-size="12" fill="#dcfce7">escalate</text>
+  </g>
+  <g stroke="#475569" stroke-width="2" fill="none" marker-end="url(#arr)">
+    <defs>
+      <marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+        <polygon points="0 0, 8 3, 0 6" fill="#475569"/>
+      </marker>
+    </defs>
+    <line x1="160" y1="140" x2="198" y2="140"/>
+    <line x1="340" y1="140" x2="378" y2="140"/>
+    <line x1="520" y1="140" x2="558" y2="140"/>
+    <line x1="700" y1="140" x2="738" y2="140"/>
+  </g>
+  <path d="M 810 205 C 810 250, 450 250, 450 205" stroke="#7c3aed" stroke-width="2" fill="none" stroke-dasharray="6,4" marker-end="url(#arr2)"/>
+  <defs>
+    <marker id="arr2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#7c3aed"/>
+    </marker>
+  </defs>
+  <text x="630" y="262" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#7c3aed">analyst verdicts feed retraining (fights concept drift)</text>
+  <text x="450" y="288" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#64748b">The model scores; the human decides. Scores order attention, never replace verification.</text>
+</svg>
